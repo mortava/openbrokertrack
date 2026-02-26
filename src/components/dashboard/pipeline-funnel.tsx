@@ -17,45 +17,38 @@ export default function PipelineFunnel({ loans }: PipelineFunnelProps) {
   const maxCount = Math.max(...stageData.map((s) => s.count), 1);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-6">
-      <h3 className="text-sm font-semibold text-slate-900 mb-4">
+    <div className="bg-white rounded-xl border border-slate-200 p-4">
+      <h3 className="text-xs font-semibold text-slate-900 mb-3">
         Pipeline Overview
       </h3>
-      <div className="space-y-3">
+      <div className="space-y-2">
         {stageData.map((item) => (
-          <div key={item.stage} className="flex items-center gap-3">
-            <div className="w-28 shrink-0">
-              <p className="text-xs font-medium text-slate-600">
+          <div key={item.stage} className="flex items-center gap-2">
+            <div className="w-24 shrink-0">
+              <p className="text-[10px] font-medium text-slate-600 truncate">
                 {item.config.label}
               </p>
             </div>
-            <div className="flex-1 h-8 bg-slate-50 rounded-lg overflow-hidden relative">
+            <div className="flex-1 h-6 bg-slate-50 rounded overflow-hidden relative">
               <div
-                className="h-full rounded-lg transition-all duration-500"
+                className="h-full rounded transition-all duration-500"
                 style={{
                   width: `${Math.max((item.count / maxCount) * 100, 4)}%`,
                   backgroundColor: item.config.color,
                   opacity: 0.15,
                 }}
               />
-              <div
-                className="absolute inset-0 h-full rounded-lg"
-                style={{
-                  width: `${Math.max((item.count / maxCount) * 100, 4)}%`,
-                  borderLeft: `3px solid ${item.config.color}`,
-                }}
-              />
-              <div className="absolute inset-0 flex items-center px-3">
+              <div className="absolute inset-0 flex items-center px-2">
                 <span
-                  className="text-xs font-semibold"
+                  className="text-[10px] font-semibold"
                   style={{ color: item.config.color }}
                 >
                   {item.count}
                 </span>
               </div>
             </div>
-            <div className="w-24 text-right shrink-0">
-              <span className="text-xs text-slate-500">
+            <div className="w-20 text-right shrink-0">
+              <span className="text-[10px] text-slate-500">
                 {formatCurrency(item.volume)}
               </span>
             </div>

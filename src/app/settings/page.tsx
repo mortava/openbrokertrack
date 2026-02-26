@@ -14,25 +14,25 @@ const sections = [
 
 export default function SettingsPage() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
       <Header title="Settings" subtitle="Manage your workspace" />
-      <div className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-2xl space-y-3">
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="max-w-2xl space-y-2">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
               <div
                 key={section.label}
-                className="bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer"
+                className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-3 hover:shadow-sm transition-shadow cursor-pointer"
               >
-                <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                  <Icon size={20} className="text-slate-600" />
+                <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                  <Icon size={18} className="text-slate-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-xs font-semibold text-slate-900">
                     {section.label}
                   </p>
-                  <p className="text-xs text-slate-500">{section.desc}</p>
+                  <p className="text-[10px] text-slate-500">{section.desc}</p>
                 </div>
               </div>
             );
