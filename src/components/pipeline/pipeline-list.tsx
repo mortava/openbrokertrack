@@ -17,9 +17,20 @@ interface PipelineListProps {
 }
 
 const thClass =
-  'px-3 py-2.5 text-left text-[10px] font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap bg-slate-50';
+  'px-1.5 py-2 text-left text-[9px] font-semibold text-slate-500 uppercase tracking-wider bg-slate-50';
 
-const tdClass = 'px-3 py-2.5 align-middle';
+const tdClass = 'px-1.5 py-2 align-middle overflow-hidden';
+
+/** Format a date as MM/DD/YY */
+function shortDate(value: string | Date | undefined | null): string {
+  if (!value) return '—';
+  const d = new Date(value as string);
+  if (isNaN(d.getTime())) return '—';
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const yy = String(d.getFullYear()).slice(2);
+  return `${mm}/${dd}/${yy}`;
+}
 
 export function PipelineList({ loans }: PipelineListProps) {
   if (loans.length === 0) {
@@ -37,24 +48,34 @@ export function PipelineList({ loans }: PipelineListProps) {
   }
 
   return (
-    /* Outer wrapper handles horizontal scroll; first column is sticky */
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-xs">
+    <div className="w-full">
+      <table className="w-full table-fixed border-collapse text-xs">
+        <colgroup>
+          <col className="w-[9%]" />   {/* Loan */}
+          <col className="w-[6%]" />   {/* Date */}
+          <col className="w-[13%]" />  {/* Borrower */}
+          <col className="w-[17%]" />  {/* Property */}
+          <col className="w-[6%]" />   {/* Purpose */}
+          <col className="w-[5%]" />   {/* Type */}
+          <col className="w-[5%]" />   {/* FICO */}
+          <col className="w-[10%]" />  {/* Amount */}
+          <col className="w-[6%]" />   {/* LTV */}
+          <col className="w-[5%]" />   {/* Rate */}
+          <col className="w-[18%]" />  {/* Loan Officer — remaining ~100% */}
+        </colgroup>
         <thead>
           <tr className="border-b border-slate-200">
-            <th className={cn(thClass, 'sticky left-0 z-10 min-w-[140px]')}>Loan / Status</th>
-            <th className={cn(thClass, 'min-w-[64px]')}>Date</th>
-            <th className={cn(thClass, 'min-w-[160px]')}>Borrower</th>
-            <th className={cn(thClass, 'min-w-[180px]')}>Property</th>
-            <th className={cn(thClass, 'min-w-[80px]')}>Purpose</th>
-            <th className={cn(thClass, 'min-w-[80px]')}>Occupancy</th>
-            <th className={cn(thClass, 'min-w-[70px]')}>Type</th>
-            <th className={cn(thClass, 'min-w-[64px]')}>FICO</th>
-            <th className={cn(thClass, 'min-w-[100px] text-right')}>Amount</th>
-            <th className={cn(thClass, 'min-w-[90px]')}>LTV / CLTV</th>
-            <th className={cn(thClass, 'min-w-[60px]')}>Rate</th>
-            <th className={cn(thClass, 'min-w-[100px]')}>Loan Officer</th>
-            <th className={cn(thClass, 'min-w-[36px]')}></th>
+            <th className={thClass}>Loan</th>
+            <th className={thClass}>Date</th>
+            <th className={thClass}>Borrower</th>
+            <th className={thClass}>Property</th>
+            <th className={thClass}>Purpose</th>
+            <th className={thClass}>Type</th>
+            <th className={thClass}>FICO</th>
+            <th className={cn(thClass, 'text-right')}>Amount</th>
+            <th className={thClass}>LTV</th>
+            <th className={thClass}>Rate</th>
+            <th className={thClass}>Loan Officer</th>
           </tr>
         </thead>
         <tbody>
@@ -74,13 +95,13 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
     <tr
       className={cn(
         rowBg,
-        'border-b border-slate-100 hover:bg-blue-50/40 transition-colors group'
+        'border-b border-slate-100 hover:bg-blue-50/40 transition-colors'
       )}
     >
-      {/* Loan # + Status — sticky */}
-      <td className={cn(tdClass, 'sticky left-0 z-10', rowBg, 'group-hover:bg-blue-50/40')}>
+      {/* Loan # + Stage stacked */}
+      <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="font-semibold text-blue-600 hover:text-blue-700 tabular-nums text-[11px]">
+          <p className="font-semibold text-blue-600 hover:text-blue-700 tabular-nums text-[11px] truncate">
             {loan.loanNumber ?? loan.id.slice(0, 8).toUpperCase()}
           </p>
           <div className="mt-0.5">
@@ -89,33 +110,28 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
         </Link>
       </td>
 
-      {/* Date */}
+      {/* Date — MM/DD/YY */}
       <td className={tdClass}>
-        <Link href={`/loans/${loan.id}`} className="block text-slate-500 whitespace-nowrap">
-          {formatDate(loan.createdAt)}
+        <Link
+          href={`/loans/${loan.id}`}
+          className="block text-slate-500 whitespace-nowrap truncate"
+        >
+          {shortDate(loan.createdAt)}
         </Link>
       </td>
 
-      {/* Borrower */}
+      {/* Borrower — name only, truncated */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="font-medium text-slate-900 truncate max-w-[150px]">
-            {loan.borrowerName}
-          </p>
-          {loan.email && (
-            <p className="text-[10px] text-slate-400 truncate max-w-[150px]">{loan.email}</p>
-          )}
-          {loan.phone && (
-            <p className="text-[10px] text-slate-400">{formatPhone(loan.phone)}</p>
-          )}
+          <p className="font-medium text-slate-900 truncate">{loan.borrowerName}</p>
         </Link>
       </td>
 
-      {/* Property */}
+      {/* Property — address line 1, city/st zip stacked */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="text-slate-700 truncate max-w-[170px]">{loan.propertyAddress}</p>
-          <p className="text-[10px] text-slate-400">
+          <p className="text-slate-700 truncate">{loan.propertyAddress}</p>
+          <p className="text-[10px] text-slate-400 truncate">
             {loan.propertyCity}, {loan.propertyState} {loan.propertyZip}
           </p>
         </Link>
@@ -125,13 +141,6 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
           <PurposeBadge purpose={loan.loanPurpose} />
-        </Link>
-      </td>
-
-      {/* Occupancy */}
-      <td className={tdClass}>
-        <Link href={`/loans/${loan.id}`} className="block">
-          <OccupancyBadge occupancy={loan.occupancy} />
         </Link>
       </td>
 
@@ -149,7 +158,7 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
         </Link>
       </td>
 
-      {/* Amount */}
+      {/* Amount — right-aligned */}
       <td className={cn(tdClass, 'text-right')}>
         <Link href={`/loans/${loan.id}`} className="block">
           <span className="font-semibold text-slate-900 tabular-nums">
@@ -158,12 +167,12 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
         </Link>
       </td>
 
-      {/* LTV / CLTV */}
+      {/* LTV / optional CLTV */}
       <td className={tdClass}>
-        <Link href={`/loans/${loan.id}`} className="block tabular-nums">
+        <Link href={`/loans/${loan.id}`} className="block tabular-nums truncate">
           <span className="text-slate-700">{loan.ltv.toFixed(1)}%</span>
           {loan.cltv !== undefined && loan.cltv > 0 && (
-            <span className="text-slate-400"> / {loan.cltv.toFixed(1)}%</span>
+            <span className="text-slate-400">/{loan.cltv.toFixed(1)}%</span>
           )}
         </Link>
       </td>
@@ -181,20 +190,11 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
         </Link>
       </td>
 
-      {/* LO */}
+      {/* Loan Officer */}
       <td className={tdClass}>
-        <Link href={`/loans/${loan.id}`} className="block truncate max-w-[95px] text-slate-600">
+        <Link href={`/loans/${loan.id}`} className="block truncate text-slate-600">
           {loan.loanOfficer ?? <span className="text-slate-300">—</span>}
         </Link>
-      </td>
-
-      {/* Notes icon */}
-      <td className={tdClass}>
-        {loan.notes && (
-          <Link href={`/loans/${loan.id}`} className="flex items-center justify-center">
-            <MessageSquare size={13} className="text-slate-400" />
-          </Link>
-        )}
       </td>
     </tr>
   );

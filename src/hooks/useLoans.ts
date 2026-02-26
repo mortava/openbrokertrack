@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase, dbToLoan } from '@/lib/supabase';
 import type { Loan } from '@/types';
+import { useAuth } from '@/contexts/auth-context';
 
 interface UseLoansResult {
   loans: Loan[];
@@ -16,6 +17,8 @@ export function useLoans(): UseLoansResult {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
+
+  const { currentUser, loanVisibility } = useAuth();
 
   const refetch = useCallback(() => setTick((t) => t + 1), []);
 
@@ -39,7 +42,35 @@ export function useLoans(): UseLoansResult {
         return;
       }
 
-      setLoans((data ?? []).map(dbToLoan));
+      const allLoans: Loan[] = (data ?? []).map(dbToLoan);
+
+      // Apply role-based loan visibility filter
+      let filtered: Loan[];
+
+      if (loanVisibility === 'all') {
+        // global_admin, lender roles — see everything
+        filtered = allLoans;
+      } else if (loanVisibility === 'company') {
+        // tpo_admin, ops_manager — see company loans
+        // No company_id on loans yet; return all as a safe default until
+        // company scoping is wired up to the data model.
+        filtered = allLoans;
+      } else {
+        // 'assigned' — mlo, loa_processor — only loans assigned to them
+        const name = currentUser.fullName.toLowerCase();
+        filtered = allLoans.filter((loan) => {
+          const officer = (loan.loanOfficer ?? '').toLowerCase();
+          const processor = (loan.processor ?? '').toLowerCase();
+          const assigned = (loan.assignedTo ?? '').toLowerCase();
+          return (
+            officer === name ||
+            processor === name ||
+            assigned === name
+          );
+        });
+      }
+
+      setLoans(filtered);
       setLoading(false);
     }
 
@@ -48,7 +79,7 @@ export function useLoans(): UseLoansResult {
     return () => {
       cancelled = true;
     };
-  }, [tick]);
+  }, [tick, loanVisibility, currentUser.fullName]);
 
   return { loans, loading, error, refetch };
 }
