@@ -1,49 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Header from '@/components/header';
-import StatsCards from '@/components/dashboard/stats-cards';
-import PipelineFunnel from '@/components/dashboard/pipeline-funnel';
-import RecentActivity from '@/components/dashboard/recent-activity';
-import { supabase, dbToLoan } from '@/lib/supabase';
-import type { Loan } from '@/types';
+import TaskSummaryCards from '@/components/dashboard/task-summary-cards';
+import LastModifiedLoans from '@/components/dashboard/last-modified-loans';
+import ActivePipelineChart from '@/components/dashboard/active-pipeline-chart';
+import LoanPurposeChart from '@/components/dashboard/loan-purpose-chart';
+import FundingHistory from '@/components/dashboard/funding-history';
 
 export default function DashboardPage() {
-  const [loans, setLoans] = useState<Loan[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchLoans() {
-      const { data, error } = await supabase
-        .from('loans')
-        .select('*')
-        .order('updated_at', { ascending: false });
-
-      if (!error && data) {
-        setLoans(data.map(dbToLoan));
-      }
-      setLoading(false);
-    }
-    fetchLoans();
-  }, []);
-
   return (
-    <div className="flex flex-col h-full">
-      <Header title="Dashboard" subtitle="Loan pipeline overview" />
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full" />
+    <div className="flex flex-col h-full overflow-y-auto bg-slate-50">
+      <div className="p-5 space-y-5">
+        {/* Welcome row */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-bold text-slate-900">Welcome, James</h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {new Date().toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </p>
           </div>
-        ) : (
-          <>
-            <StatsCards loans={loans} />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <PipelineFunnel loans={loans} />
-              <RecentActivity loans={loans} />
-            </div>
-          </>
-        )}
+        </div>
+
+        {/* Task summary cards */}
+        <TaskSummaryCards />
+
+        {/* Main two-column grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+          {/* Left column */}
+          <div className="flex flex-col gap-5">
+            <LastModifiedLoans />
+            <ActivePipelineChart />
+          </div>
+
+          {/* Right column */}
+          <div className="flex flex-col gap-5">
+            <LoanPurposeChart />
+            <FundingHistory />
+          </div>
+        </div>
       </div>
     </div>
   );

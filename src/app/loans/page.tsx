@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Header from '@/components/header';
 import LoansTable from '@/components/loans/loans-table';
 import { supabase, dbToLoan } from '@/lib/supabase';
 import type { Loan } from '@/types';
@@ -27,7 +26,6 @@ export default function LoansPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Loans" subtitle="All loans in your pipeline" />
       <div className="flex-1 overflow-y-auto p-4">
         {loading ? (
           <div className="flex items-center justify-center h-64">

@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'OpenBrokerTrack — Loan Pipeline Management',
-  description: 'Track and manage your mortgage loan pipeline from lead to funding.',
+  title: 'OpenBrokerTrack',
+  description: 'Mortgage Loan Pipeline Management',
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%232563eb"/><text x="50" y="68" font-size="52" font-weight="bold" fill="white" text-anchor="middle" font-family="system-ui">OB</text></svg>',
   },
