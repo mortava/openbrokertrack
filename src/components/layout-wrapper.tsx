@@ -21,6 +21,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { DEMO_USERS } from '@/contexts/auth-context';
 import { getVisibleNavItems } from '@/lib/permissions';
 import { ROLE_LABELS, TIER_LABELS, type UserRole } from '@/types/roles';
+import AIAssistant from '@/components/ai-assistant';
 
 // Full nav item definition — visibility is filtered per role below
 const ALL_NAV_ITEMS = [
@@ -248,6 +249,9 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <main className="flex-1 overflow-hidden">
         {children}
       </main>
+
+      {/* AI Assistant — floating on all pages */}
+      <AIAssistant />
     </div>
   );
 }

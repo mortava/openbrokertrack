@@ -1,6 +1,7 @@
 'use client';
 
 import TaskSummaryCards from '@/components/dashboard/task-summary-cards';
+import TodaysGoals from '@/components/dashboard/todays-goals';
 import LastModifiedLoans from '@/components/dashboard/last-modified-loans';
 import ActivePipelineChart from '@/components/dashboard/active-pipeline-chart';
 import LoanPurposeChart from '@/components/dashboard/loan-purpose-chart';
@@ -28,15 +29,19 @@ export default function DashboardPage() {
         {/* Task summary cards */}
         <TaskSummaryCards />
 
-        {/* Main two-column grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-          {/* Left column */}
-          <div className="flex flex-col gap-5">
-            <LastModifiedLoans />
-            <ActivePipelineChart />
+        {/* Today's Goals + Recent Loans row */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+          <div className="xl:col-span-1">
+            <TodaysGoals />
           </div>
+          <div className="xl:col-span-2">
+            <LastModifiedLoans />
+          </div>
+        </div>
 
-          {/* Right column */}
+        {/* Charts row */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+          <ActivePipelineChart />
           <div className="flex flex-col gap-5">
             <LoanPurposeChart />
             <FundingHistory />
