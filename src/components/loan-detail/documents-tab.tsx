@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Upload, FileText, Folder } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Upload, FileText, Folder, Trash2, Download, Paperclip, X } from 'lucide-react';
 import type { LoanDocument, DocumentCategory, DocumentStatus } from '@/types';
 import { supabase } from '@/lib/supabase';
-import { dbToDocument } from '@/lib/supabase';
 import { formatDate, cn } from '@/lib/utils';
 import { TypeBadge } from '@/components/ui/badge';
 
@@ -13,6 +12,9 @@ interface DocumentsTabProps {
   documents: LoanDocument[];
   onRefetch: () => void;
 }
+
+const ACCEPTED_TYPES = '.pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx';
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
 const categoryVariant: Record<
   DocumentCategory,
@@ -43,38 +45,122 @@ const statusVariant: Record<
 const inputClass =
   'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400';
 
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fileNameWithoutExt(name: string): string {
+  const dot = name.lastIndexOf('.');
+  return dot > 0 ? name.substring(0, dot) : name;
+}
+
+/** Extract storage path from a Supabase public URL */
+function storagePathFromUrl(url: string): string | null {
+  const marker = '/object/public/loan-documents/';
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return decodeURIComponent(url.substring(idx + marker.length));
+}
+
 export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps) {
   const [showForm, setShowForm] = useState(false);
   const [docName, setDocName] = useState('');
   const [category, setCategory] = useState<DocumentCategory>('other');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [dragOver, setDragOver] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  function handleFileSelect(file: File | undefined) {
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE) {
+      setError(`File too large (${formatFileSize(file.size)}). Max is 10 MB.`);
+      return;
+    }
+    setError('');
+    setSelectedFile(file);
+    if (!docName.trim()) {
+      setDocName(fileNameWithoutExt(file.name));
+    }
+  }
+
+  function clearFile() {
+    setSelectedFile(null);
+    if (fileRef.current) fileRef.current.value = '';
+  }
+
+  function resetForm() {
+    setDocName('');
+    setCategory('other');
+    setSelectedFile(null);
+    setError('');
+    setShowForm(false);
+    if (fileRef.current) fileRef.current.value = '';
+  }
 
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault();
+    if (!selectedFile) {
+      setError('Please select a file to upload.');
+      return;
+    }
     if (!docName.trim()) return;
     setSubmitting(true);
+    setError('');
 
-    const { data, error } = await supabase
-      .from('loan_documents')
-      .insert({
-        loan_id: loanId,
-        name: docName.trim(),
-        category,
-        uploaded_by: 'User',
-        status: 'pending',
-      })
-      .select()
-      .single();
+    try {
+      // 1. Upload file to Supabase Storage
+      const storagePath = `${loanId}/${Date.now()}_${selectedFile.name}`;
+      const { error: uploadErr } = await supabase.storage
+        .from('loan-documents')
+        .upload(storagePath, selectedFile);
 
-    if (!error && data) {
-      // use the returned data — satisfies linter
-      void dbToDocument(data);
+      if (uploadErr) {
+        setError(`Upload failed: ${uploadErr.message}`);
+        setSubmitting(false);
+        return;
+      }
+
+      // 2. Get the public URL
+      const { data: urlData } = supabase.storage
+        .from('loan-documents')
+        .getPublicUrl(storagePath);
+
+      // 3. Insert database record with file URL and size
+      await supabase
+        .from('loan_documents')
+        .insert({
+          loan_id: loanId,
+          name: docName.trim(),
+          category,
+          file_url: urlData.publicUrl,
+          file_size: selectedFile.size,
+          uploaded_by: 'User',
+          status: 'received',
+        });
+
+      resetForm();
+      onRefetch();
+    } catch {
+      setError('An unexpected error occurred.');
+    } finally {
+      setSubmitting(false);
     }
+  }
 
-    setDocName('');
-    setCategory('other');
-    setShowForm(false);
-    setSubmitting(false);
+  async function handleDelete(doc: LoanDocument) {
+    // Delete storage file if it exists
+    if (doc.fileUrl) {
+      const path = storagePathFromUrl(doc.fileUrl);
+      if (path) {
+        await supabase.storage.from('loan-documents').remove([path]);
+      }
+    }
+    // Delete database record
+    await supabase.from('loan_documents').delete().eq('id', doc.id);
     onRefetch();
   }
 
@@ -106,14 +192,69 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
           onSubmit={handleUpload}
           className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2"
         >
+          {/* Drop zone / file picker */}
+          <div
+            className={cn(
+              'relative border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer',
+              dragOver
+                ? 'border-blue-400 bg-blue-50'
+                : selectedFile
+                  ? 'border-green-300 bg-green-50'
+                  : 'border-slate-300 bg-white hover:border-slate-400',
+            )}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragOver(false);
+              handleFileSelect(e.dataTransfer.files[0]);
+            }}
+            onClick={() => fileRef.current?.click()}
+          >
+            <input
+              ref={fileRef}
+              type="file"
+              accept={ACCEPTED_TYPES}
+              className="hidden"
+              onChange={(e) => handleFileSelect(e.target.files?.[0])}
+            />
+
+            {selectedFile ? (
+              <div className="flex items-center justify-center gap-2">
+                <Paperclip size={14} className="text-green-600" />
+                <span className="text-xs font-medium text-green-700">{selectedFile.name}</span>
+                <span className="text-[10px] text-green-500">({formatFileSize(selectedFile.size)})</span>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); clearFile(); }}
+                  className="ml-1 p-0.5 rounded hover:bg-green-200 transition-colors"
+                >
+                  <X size={12} className="text-green-600" />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <Upload size={20} className="mx-auto text-slate-400 mb-1" />
+                <p className="text-xs text-slate-500">
+                  Drag & drop a file here, or <span className="text-blue-600 font-medium">browse</span>
+                </p>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  PDF, Images, Word, Excel &middot; Max 10 MB
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Document name */}
           <input
             type="text"
             placeholder="Document name (e.g. 2023 Tax Returns)"
             value={docName}
             onChange={(e) => setDocName(e.target.value)}
             className={inputClass}
-            autoFocus
           />
+
+          {/* Category */}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as DocumentCategory)}
@@ -125,20 +266,27 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
               </option>
             ))}
           </select>
+
+          {/* Error message */}
+          {error && (
+            <p className="text-[11px] text-red-600 bg-red-50 px-2 py-1 rounded">{error}</p>
+          )}
+
+          {/* Actions */}
           <div className="flex gap-2 justify-end">
             <button
               type="button"
-              onClick={() => setShowForm(false)}
+              onClick={resetForm}
               className="px-3 py-1 text-[11px] text-slate-600 border border-slate-200 rounded-md hover:bg-white"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={submitting || !docName.trim()}
+              disabled={submitting || !docName.trim() || !selectedFile}
               className="px-3 py-1 text-[11px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60"
             >
-              {submitting ? 'Adding...' : 'Add Document'}
+              {submitting ? 'Uploading...' : 'Upload Document'}
             </button>
           </div>
         </form>
@@ -158,14 +306,21 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
       {/* Documents list */}
       <div className="space-y-2">
         {documents.map((doc) => (
-          <DocumentRow key={doc.id} doc={doc} />
+          <DocumentRow key={doc.id} doc={doc} onDelete={() => handleDelete(doc)} />
         ))}
       </div>
     </div>
   );
 }
 
-function DocumentRow({ doc }: { doc: LoanDocument }) {
+function DocumentRow({ doc, onDelete }: { doc: LoanDocument; onDelete: () => void }) {
+  const [deleting, setDeleting] = useState(false);
+
+  async function confirmDelete() {
+    setDeleting(true);
+    await onDelete();
+  }
+
   return (
     <div className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors group">
       <div className="shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
@@ -173,9 +328,21 @@ function DocumentRow({ doc }: { doc: LoanDocument }) {
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-slate-800 truncate">{doc.name}</p>
+        {doc.fileUrl ? (
+          <a
+            href={doc.fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline truncate block"
+          >
+            {doc.name}
+          </a>
+        ) : (
+          <p className="text-xs font-medium text-slate-800 truncate">{doc.name}</p>
+        )}
         <p className="text-[10px] text-slate-400 mt-0.5">
           {doc.uploadedBy} &middot; {formatDate(doc.createdAt)}
+          {doc.fileSize ? ` \u00B7 ${formatFileSize(doc.fileSize)}` : ''}
         </p>
       </div>
 
@@ -186,6 +353,29 @@ function DocumentRow({ doc }: { doc: LoanDocument }) {
         <TypeBadge variant={statusVariant[doc.status]}>
           {doc.status}
         </TypeBadge>
+
+        {/* Download button */}
+        {doc.fileUrl && (
+          <a
+            href={doc.fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"
+            title="Download"
+          >
+            <Download size={13} />
+          </a>
+        )}
+
+        {/* Delete button */}
+        <button
+          onClick={confirmDelete}
+          disabled={deleting}
+          className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
+          title="Delete document"
+        >
+          <Trash2 size={13} />
+        </button>
       </div>
     </div>
   );
