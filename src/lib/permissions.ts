@@ -186,6 +186,11 @@ export function getVisibleNavItems(role: UserRole): string[] {
     items.push('/settings');
   }
 
+  // Marketing visible to those who can manage contacts
+  if (hasPermission(role, 'contacts:view')) {
+    items.push('/marketing');
+  }
+
   // Support and Training are always visible
   items.push('/support');
   items.push('/training');
