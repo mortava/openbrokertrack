@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Upload, FileText, Folder, Trash2, Download, Paperclip, X } from 'lucide-react';
+import { Upload, FileText, Folder, Trash2, Download, Paperclip, X, Eye, Image as ImageIcon, FileSpreadsheet } from 'lucide-react';
 import type { LoanDocument, DocumentCategory, DocumentStatus } from '@/types';
 import { supabase } from '@/lib/supabase';
 import { formatDate, cn } from '@/lib/utils';
@@ -64,6 +64,23 @@ function storagePathFromUrl(url: string): string | null {
   return decodeURIComponent(url.substring(idx + marker.length));
 }
 
+/** Determine file type from URL for preview */
+function getFileType(url: string): 'pdf' | 'image' | 'other' {
+  const lower = url.toLowerCase();
+  if (lower.includes('.pdf')) return 'pdf';
+  if (lower.includes('.png') || lower.includes('.jpg') || lower.includes('.jpeg')) return 'image';
+  return 'other';
+}
+
+/** Get file icon based on extension */
+function getFileIcon(url?: string) {
+  if (!url) return <FileText size={15} className="text-slate-500" />;
+  const type = getFileType(url);
+  if (type === 'pdf') return <FileText size={15} className="text-red-500" />;
+  if (type === 'image') return <ImageIcon size={15} className="text-blue-500" />;
+  return <FileSpreadsheet size={15} className="text-green-500" />;
+}
+
 export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps) {
   const [showForm, setShowForm] = useState(false);
   const [docName, setDocName] = useState('');
@@ -72,6 +89,7 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [dragOver, setDragOver] = useState(false);
+  const [previewDoc, setPreviewDoc] = useState<LoanDocument | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   function handleFileSelect(file: File | undefined) {
@@ -112,7 +130,6 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
     setError('');
 
     try {
-      // 1. Upload file to Supabase Storage
       const storagePath = `${loanId}/${Date.now()}_${selectedFile.name}`;
       const { error: uploadErr } = await supabase.storage
         .from('loan-documents')
@@ -124,12 +141,10 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
         return;
       }
 
-      // 2. Get the public URL
       const { data: urlData } = supabase.storage
         .from('loan-documents')
         .getPublicUrl(storagePath);
 
-      // 3. Insert database record with file URL and size
       await supabase
         .from('loan_documents')
         .insert({
@@ -152,15 +167,14 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
   }
 
   async function handleDelete(doc: LoanDocument) {
-    // Delete storage file if it exists
     if (doc.fileUrl) {
       const path = storagePathFromUrl(doc.fileUrl);
       if (path) {
         await supabase.storage.from('loan-documents').remove([path]);
       }
     }
-    // Delete database record
     await supabase.from('loan_documents').delete().eq('id', doc.id);
+    if (previewDoc?.id === doc.id) setPreviewDoc(null);
     onRefetch();
   }
 
@@ -192,7 +206,6 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
           onSubmit={handleUpload}
           className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2"
         >
-          {/* Drop zone / file picker */}
           <div
             className={cn(
               'relative border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer',
@@ -218,7 +231,6 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
               className="hidden"
               onChange={(e) => handleFileSelect(e.target.files?.[0])}
             />
-
             {selectedFile ? (
               <div className="flex items-center justify-center gap-2">
                 <Paperclip size={14} className="text-green-600" />
@@ -245,7 +257,6 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
             )}
           </div>
 
-          {/* Document name */}
           <input
             type="text"
             placeholder="Document name (e.g. 2023 Tax Returns)"
@@ -253,8 +264,6 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
             onChange={(e) => setDocName(e.target.value)}
             className={inputClass}
           />
-
-          {/* Category */}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as DocumentCategory)}
@@ -267,12 +276,10 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
             ))}
           </select>
 
-          {/* Error message */}
           {error && (
             <p className="text-[11px] text-red-600 bg-red-50 px-2 py-1 rounded">{error}</p>
           )}
 
-          {/* Actions */}
           <div className="flex gap-2 justify-end">
             <button
               type="button"
@@ -292,8 +299,13 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
         </form>
       )}
 
+      {/* Document Preview Modal */}
+      {previewDoc && previewDoc.fileUrl && (
+        <DocumentPreview doc={previewDoc} onClose={() => setPreviewDoc(null)} />
+      )}
+
       {/* Empty state */}
-      {documents.length === 0 && (
+      {documents.length === 0 && !showForm && (
         <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-slate-200 rounded-xl">
           <Folder size={28} className="text-slate-200 mb-2" />
           <p className="text-sm font-medium text-slate-500">No documents yet</p>
@@ -306,14 +318,114 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
       {/* Documents list */}
       <div className="space-y-2">
         {documents.map((doc) => (
-          <DocumentRow key={doc.id} doc={doc} onDelete={() => handleDelete(doc)} />
+          <DocumentRow
+            key={doc.id}
+            doc={doc}
+            onDelete={() => handleDelete(doc)}
+            onPreview={() => setPreviewDoc(doc)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function DocumentRow({ doc, onDelete }: { doc: LoanDocument; onDelete: () => void }) {
+/* ─── Document Preview Modal ──────────────────────────────────────────────── */
+
+function DocumentPreview({ doc, onClose }: { doc: LoanDocument; onClose: () => void }) {
+  const url = doc.fileUrl!;
+  const type = getFileType(url);
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60" onClick={onClose}>
+      <div
+        className="relative bg-white rounded-xl shadow-2xl w-[90vw] max-w-4xl h-[85vh] flex flex-col overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Preview header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50 shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {getFileIcon(url)}
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-slate-800 truncate">{doc.name}</p>
+              <p className="text-[10px] text-slate-400">
+                {doc.uploadedBy} &middot; {formatDate(doc.createdAt)}
+                {doc.fileSize ? ` \u00B7 ${formatFileSize(doc.fileSize)}` : ''}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <TypeBadge variant={categoryVariant[doc.category]}>{doc.category}</TypeBadge>
+            <TypeBadge variant={statusVariant[doc.status]}>{doc.status}</TypeBadge>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 p-1.5 rounded-lg hover:bg-slate-200 text-slate-500 hover:text-blue-600 transition-colors"
+              title="Open in new tab"
+            >
+              <Download size={14} />
+            </a>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        </div>
+
+        {/* Preview body */}
+        <div className="flex-1 overflow-hidden bg-slate-100">
+          {type === 'pdf' && (
+            <iframe
+              src={`${url}#toolbar=1&navpanes=0`}
+              className="w-full h-full border-0"
+              title={doc.name}
+            />
+          )}
+          {type === 'image' && (
+            <div className="w-full h-full flex items-center justify-center p-6 overflow-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={url}
+                alt={doc.name}
+                className="max-w-full max-h-full object-contain rounded-lg shadow-md"
+              />
+            </div>
+          )}
+          {type === 'other' && (
+            <div className="flex flex-col items-center justify-center h-full gap-3">
+              <FileSpreadsheet size={40} className="text-slate-300" />
+              <p className="text-sm text-slate-500">Preview not available for this file type</p>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Download size={13} />
+                Download to View
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Document Row ────────────────────────────────────────────────────────── */
+
+function DocumentRow({
+  doc,
+  onDelete,
+  onPreview,
+}: {
+  doc: LoanDocument;
+  onDelete: () => void;
+  onPreview: () => void;
+}) {
   const [deleting, setDeleting] = useState(false);
 
   async function confirmDelete() {
@@ -321,22 +433,22 @@ function DocumentRow({ doc, onDelete }: { doc: LoanDocument; onDelete: () => voi
     await onDelete();
   }
 
+  const canPreview = doc.fileUrl && getFileType(doc.fileUrl) !== 'other';
+
   return (
     <div className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors group">
       <div className="shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
-        <FileText size={15} className="text-slate-500" />
+        {getFileIcon(doc.fileUrl)}
       </div>
 
       <div className="flex-1 min-w-0">
         {doc.fileUrl ? (
-          <a
-            href={doc.fileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline truncate block"
+          <button
+            onClick={onPreview}
+            className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline truncate block text-left"
           >
             {doc.name}
-          </a>
+          </button>
         ) : (
           <p className="text-xs font-medium text-slate-800 truncate">{doc.name}</p>
         )}
@@ -353,6 +465,17 @@ function DocumentRow({ doc, onDelete }: { doc: LoanDocument; onDelete: () => voi
         <TypeBadge variant={statusVariant[doc.status]}>
           {doc.status}
         </TypeBadge>
+
+        {/* View button */}
+        {canPreview && (
+          <button
+            onClick={onPreview}
+            className="p-1 rounded hover:bg-blue-50 text-slate-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"
+            title="Preview"
+          >
+            <Eye size={13} />
+          </button>
+        )}
 
         {/* Download button */}
         {doc.fileUrl && (

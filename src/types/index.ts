@@ -190,6 +190,26 @@ export interface LoanDocument {
   createdAt: string;
 }
 
+// ─── Condition ──────────────────────────────────────────────────────────────
+
+export type ConditionType = 'ptd' | 'ptf' | 'ptc';
+export type ConditionStatus = 'open' | 'requested' | 'received' | 'cleared' | 'waived';
+
+export interface LoanCondition {
+  id: string;
+  loanId: string;
+  conditionType: ConditionType;
+  title: string;
+  description?: string;
+  status: ConditionStatus;
+  addedBy: string;
+  clearedBy?: string;
+  clearedAt?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 export interface Contact {

@@ -6,11 +6,14 @@ import type {
   LoanActivity,
   LoanNote,
   LoanDocument,
+  LoanCondition,
   PipelineStage,
   TaskPriority,
   TaskCategory,
   DocumentStatus,
   DocumentCategory,
+  ConditionType,
+  ConditionStatus,
 } from '@/types';
 
 // ─── Client ──────────────────────────────────────────────────────────────────
@@ -150,6 +153,21 @@ export interface DbLoanDocument {
   status: string;
   notes: string | null;
   created_at: string;
+}
+
+export interface DbLoanCondition {
+  id: string;
+  loan_id: string;
+  condition_type: string;
+  title: string;
+  description: string | null;
+  status: string;
+  added_by: string;
+  cleared_by: string | null;
+  cleared_at: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 // ─── Converters ──────────────────────────────────────────────────────────────
@@ -295,5 +313,22 @@ export function dbToDocument(row: DbLoanDocument): LoanDocument {
     status: row.status as DocumentStatus,
     notes: row.notes ?? undefined,
     createdAt: row.created_at,
+  };
+}
+
+export function dbToCondition(row: DbLoanCondition): LoanCondition {
+  return {
+    id: row.id,
+    loanId: row.loan_id,
+    conditionType: row.condition_type as ConditionType,
+    title: row.title,
+    description: row.description ?? undefined,
+    status: row.status as ConditionStatus,
+    addedBy: row.added_by,
+    clearedBy: row.cleared_by ?? undefined,
+    clearedAt: row.cleared_at ?? undefined,
+    notes: row.notes ?? undefined,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
   };
 }

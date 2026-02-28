@@ -264,7 +264,7 @@ export async function createTask(
     const { data: row, error } = await supabase
       .from('tasks')
       .insert({
-        loan_id: data.loanId,
+        loan_id: data.loanId || null,
         title: data.title,
         description: data.description ?? null,
         due_date: data.dueDate ?? null,

@@ -2,7 +2,7 @@
 
 import { use, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, LayoutGrid, CheckSquare, MessageSquare, Activity, Folder } from 'lucide-react';
+import { ArrowLeft, LayoutGrid, CheckSquare, MessageSquare, Activity, Folder, ShieldCheck } from 'lucide-react';
 import { useLoan } from '@/hooks/useLoan';
 import { DetailHeader } from '@/components/loan-detail/detail-header';
 import { OverviewTab } from '@/components/loan-detail/overview-tab';
@@ -10,9 +10,11 @@ import { TasksTab } from '@/components/loan-detail/tasks-tab';
 import { NotesTab } from '@/components/loan-detail/notes-tab';
 import { ActivitiesTab } from '@/components/loan-detail/activities-tab';
 import { DocumentsTab } from '@/components/loan-detail/documents-tab';
+import { ConditionsTab } from '@/components/loan-detail/conditions-tab';
+import { sendNotification } from '@/lib/notifications';
 import { cn } from '@/lib/utils';
 
-type TabId = 'overview' | 'tasks' | 'notes' | 'documents' | 'activities';
+type TabId = 'overview' | 'tasks' | 'conditions' | 'notes' | 'documents' | 'activities';
 
 interface NavItem {
   id: TabId;
@@ -22,11 +24,12 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'overview',   label: 'Overview',   icon: LayoutGrid },
-  { id: 'tasks',      label: 'Tasks',      icon: CheckSquare,   countKey: 'tasks' },
-  { id: 'notes',      label: 'Notes',      icon: MessageSquare, countKey: 'notes' },
-  { id: 'documents',  label: 'Documents',  icon: Folder,        countKey: 'documents' },
-  { id: 'activities', label: 'Activity',   icon: Activity,      countKey: 'activities' },
+  { id: 'overview',   label: 'Overview',    icon: LayoutGrid },
+  { id: 'tasks',      label: 'Tasks',       icon: CheckSquare,   countKey: 'tasks' },
+  { id: 'conditions', label: 'Conditions',  icon: ShieldCheck },
+  { id: 'notes',      label: 'Notes',       icon: MessageSquare, countKey: 'notes' },
+  { id: 'documents',  label: 'Documents',   icon: Folder,        countKey: 'documents' },
+  { id: 'activities', label: 'Activity',    icon: Activity,      countKey: 'activities' },
 ];
 
 export default function LoanDetailPage({
@@ -127,6 +130,18 @@ export default function LoanDetailPage({
             )}
             {activeTab === 'notes' && (
               <NotesTab loanId={loan.id} notes={notes} onRefetch={refetch} />
+            )}
+            {activeTab === 'conditions' && (
+              <ConditionsTab
+                loanId={loan.id}
+                onNotify={(subject, body) => {
+                  const loanRef = `Loan: ${loan.borrowerName} — ${loan.loanNumber || loan.id.slice(0, 8)}`;
+                  sendNotification(
+                    `[OBT] ${subject}`,
+                    `${body}<br/><br/><strong>${loanRef}</strong>`
+                  );
+                }}
+              />
             )}
             {activeTab === 'documents' && (
               <DocumentsTab loanId={loan.id} documents={documents} onRefetch={refetch} />
