@@ -33,10 +33,10 @@ interface PipelineFiltersProps {
 }
 
 const inputClass =
-  'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400';
+  'w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400';
 
 const selectClass =
-  'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white text-slate-700';
+  'w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white text-gray-700';
 
 export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersProps) {
   function toggleStage(stage: PipelineStage) {
@@ -64,12 +64,12 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 shrink-0">
-        <span className="text-xs font-semibold text-slate-700">Filters</span>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 shrink-0">
+        <span className="text-xs font-semibold text-gray-700">Filters</span>
         {hasFilters && (
           <button
             onClick={onClear}
-            className="text-[11px] text-blue-600 hover:text-blue-700 font-medium"
+            className="text-[11px] text-[#171717] hover:text-[#171717]/70 font-medium"
           >
             Clear all
           </button>
@@ -81,7 +81,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Status */}
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">
             Status
           </p>
           <div className="space-y-1">
@@ -97,9 +97,9 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleStage(stage)}
-                    className="w-3.5 h-3.5 rounded border-slate-300 accent-blue-600"
+                    className="w-3.5 h-3.5 rounded border-gray-300 accent-[#171717]"
                   />
-                  <span className="flex items-center gap-1.5 text-xs text-slate-700 group-hover:text-slate-900">
+                  <span className="flex items-center gap-1.5 text-xs text-gray-700 group-hover:text-gray-900">
                     <span
                       className="w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ backgroundColor: config.color }}
@@ -114,7 +114,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Borrower Name */}
         <div>
-          <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Borrower Name
           </label>
           <input
@@ -128,7 +128,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Loan Officer */}
         <div>
-          <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Loan Officer
           </label>
           <input
@@ -142,7 +142,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Loan Type */}
         <div>
-          <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Loan Type
           </label>
           <select
@@ -161,7 +161,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Purpose */}
         <div>
-          <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Purpose
           </label>
           <select
@@ -178,7 +178,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Credit Score Range */}
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Credit Score
           </p>
           <div className="flex items-center gap-1.5">
@@ -189,7 +189,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
               onChange={(e) => set('creditScoreMin', e.target.value)}
               className={inputClass}
             />
-            <span className="text-slate-400 text-xs shrink-0">–</span>
+            <span className="text-gray-400 text-xs shrink-0">–</span>
             <input
               type="number"
               placeholder="Max"
@@ -202,7 +202,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
 
         {/* Loan Amount Range */}
         <div>
-          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+          <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
             Loan Amount
           </p>
           <div className="flex items-center gap-1.5">
@@ -213,7 +213,7 @@ export function PipelineFilters({ filters, onChange, onClear }: PipelineFiltersP
               onChange={(e) => set('amountMin', e.target.value)}
               className={inputClass}
             />
-            <span className="text-slate-400 text-xs shrink-0">–</span>
+            <span className="text-gray-400 text-xs shrink-0">–</span>
             <input
               type="number"
               placeholder="Max $"

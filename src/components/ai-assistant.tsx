@@ -33,7 +33,7 @@ function generateResponse(input: string, userName: string): string {
   const lower = input.toLowerCase();
 
   if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
-    return `Hello ${userName}! I'm your OpenBrokerTrack AI assistant. I can help you with loan scenarios, pipeline questions, document requirements, and general mortgage guidance. What can I help you with?`;
+    return `Hello ${userName}! I'm your OpenBroker LOS AI assistant. I can help you with loan scenarios, pipeline questions, document requirements, and general mortgage guidance. What can I help you with?`;
   }
 
   if (lower.includes('overdue') || lower.includes('late') || lower.includes('behind')) {
@@ -80,7 +80,7 @@ export default function AIAssistant() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hi ${currentUser.fullName.split(' ')[0]}! I'm your AI assistant for OpenBrokerTrack. I can help with loan scenarios, document checklists, pipeline questions, and more. How can I help you today?`,
+      content: `Hi ${currentUser.fullName.split(' ')[0]}! I'm your AI assistant for OpenBroker LOS. I can help with loan scenarios, document checklists, pipeline questions, and more. How can I help you today?`,
       timestamp: new Date(),
     },
   ]);
@@ -132,7 +132,7 @@ export default function AIAssistant() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-[9999] w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center group"
+        className="fixed bottom-5 right-5 z-[9999] w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm text-gray-600 hover:shadow-md hover:scale-105 transition-all flex items-center justify-center group"
         title="AI Assistant"
       >
         <MessageSquare size={20} />
@@ -145,17 +145,17 @@ export default function AIAssistant() {
   if (minimized) {
     return (
       <div
-        className="fixed bottom-5 right-5 z-[9999] bg-white border border-slate-200 rounded-xl shadow-lg flex items-center gap-2 px-3 py-2 cursor-pointer hover:shadow-xl transition-shadow"
+        className="fixed bottom-5 right-5 z-[9999] bg-white border border-gray-200 rounded-xl shadow-lg flex items-center gap-2 px-3 py-2 cursor-pointer hover:shadow-xl transition-shadow"
         onClick={() => setMinimized(false)}
       >
-        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+        <div className="w-6 h-6 rounded-full bg-[#171717] flex items-center justify-center">
           <Bot size={12} className="text-white" />
         </div>
-        <span className="text-xs font-medium text-slate-700">AI Assistant</span>
+        <span className="text-xs font-medium text-gray-700">AI Assistant</span>
         <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
         <button
           onClick={(e) => { e.stopPropagation(); setOpen(false); setMinimized(false); }}
-          className="ml-1 p-0.5 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600"
+          className="ml-1 p-0.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
         >
           <X size={12} />
         </button>
@@ -165,16 +165,16 @@ export default function AIAssistant() {
 
   // Full chat panel
   return (
-    <div className="fixed bottom-5 right-5 z-[9999] w-[380px] h-[520px] bg-white border border-slate-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed bottom-5 right-5 z-[9999] w-[380px] h-[520px] bg-white border border-gray-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-between shrink-0">
+      <div className="px-4 py-3 bg-[#171717] flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
             <Sparkles size={16} className="text-white" />
           </div>
           <div>
             <h4 className="text-sm font-semibold text-white">AI Assistant</h4>
-            <p className="text-[10px] text-blue-200">OpenBrokerTrack</p>
+            <p className="text-[10px] text-white/60">OpenBroker LOS</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -196,7 +196,7 @@ export default function AIAssistant() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-slate-50/50">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50/50">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -206,7 +206,7 @@ export default function AIAssistant() {
             )}
           >
             {msg.role === 'assistant' && (
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-6 h-6 rounded-full bg-[#171717] flex items-center justify-center shrink-0 mt-0.5">
                 <Bot size={12} className="text-white" />
               </div>
             )}
@@ -214,15 +214,15 @@ export default function AIAssistant() {
               className={cn(
                 'max-w-[80%] px-3 py-2 rounded-xl text-xs leading-relaxed',
                 msg.role === 'user'
-                  ? 'bg-blue-600 text-white rounded-br-sm'
-                  : 'bg-white border border-slate-200 text-slate-700 rounded-bl-sm shadow-sm'
+                  ? 'bg-[#171717] text-white rounded-br-sm'
+                  : 'bg-white border border-gray-200 text-gray-700 rounded-bl-sm shadow-sm'
               )}
             >
               {msg.content.split('\n').map((line, i) => (
                 <span key={i}>
                   {line.split(/(\*\*[^*]+\*\*)/).map((part, j) =>
                     part.startsWith('**') && part.endsWith('**') ? (
-                      <strong key={j} className={msg.role === 'user' ? 'text-white' : 'text-slate-900'}>
+                      <strong key={j} className={msg.role === 'user' ? 'text-white' : 'text-gray-900'}>
                         {part.slice(2, -2)}
                       </strong>
                     ) : (
@@ -234,8 +234,8 @@ export default function AIAssistant() {
               ))}
             </div>
             {msg.role === 'user' && (
-              <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center shrink-0 mt-0.5">
-                <User size={12} className="text-slate-600" />
+              <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center shrink-0 mt-0.5">
+                <User size={12} className="text-gray-600" />
               </div>
             )}
           </div>
@@ -244,13 +244,13 @@ export default function AIAssistant() {
         {/* Typing indicator */}
         {isTyping && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shrink-0">
+            <div className="w-6 h-6 rounded-full bg-[#171717] flex items-center justify-center shrink-0">
               <Bot size={12} className="text-white" />
             </div>
-            <div className="bg-white border border-slate-200 rounded-xl rounded-bl-sm px-3 py-2 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl rounded-bl-sm px-3 py-2 shadow-sm">
               <div className="flex items-center gap-1.5">
-                <Loader2 size={12} className="text-blue-500 animate-spin" />
-                <span className="text-[11px] text-slate-400">Thinking...</span>
+                <Loader2 size={12} className="text-gray-500 animate-spin" />
+                <span className="text-[11px] text-gray-400">Thinking...</span>
               </div>
             </div>
           </div>
@@ -261,14 +261,14 @@ export default function AIAssistant() {
 
       {/* Quick prompts (show when few messages) */}
       {messages.length <= 2 && (
-        <div className="px-4 py-2 border-t border-slate-100 bg-white">
-          <p className="text-[10px] text-slate-400 mb-1.5">Quick questions:</p>
+        <div className="px-4 py-2 border-t border-gray-100 bg-white">
+          <p className="text-[10px] text-gray-400 mb-1.5">Quick questions:</p>
           <div className="flex flex-wrap gap-1.5">
             {QUICK_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
                 onClick={() => handleSend(prompt)}
-                className="px-2.5 py-1 text-[10px] font-medium text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors"
+                className="px-2.5 py-1 text-[10px] font-medium text-[#171717] bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
               >
                 {prompt}
               </button>
@@ -278,7 +278,7 @@ export default function AIAssistant() {
       )}
 
       {/* Input */}
-      <div className="px-3 py-2.5 border-t border-slate-200 bg-white shrink-0">
+      <div className="px-3 py-2.5 border-t border-gray-200 bg-white shrink-0">
         <form
           onSubmit={(e) => { e.preventDefault(); handleSend(); }}
           className="flex items-center gap-2"
@@ -289,13 +289,13 @@ export default function AIAssistant() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask me anything..."
-            className="flex-1 px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-slate-50 placeholder:text-slate-400"
+            className="flex-1 px-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-gray-50 placeholder:text-gray-400"
             disabled={isTyping}
           />
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className="p-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="p-2 rounded-lg bg-[#171717] text-white hover:bg-[#171717]/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             <Send size={14} />
           </button>

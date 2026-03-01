@@ -55,7 +55,7 @@ const statusConfig: Record<ConditionStatus, {
 };
 
 const inputClass =
-  'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400';
+  'w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400';
 
 export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
   const { currentUser } = useAuth();
@@ -158,9 +158,9 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
     return (
       <div className="space-y-3">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="bg-white rounded-lg border border-slate-200 p-4 animate-pulse">
-            <div className="h-4 bg-slate-100 rounded w-48 mb-2" />
-            <div className="h-3 bg-slate-100 rounded w-32" />
+          <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
+            <div className="h-4 bg-gray-100 rounded w-48 mb-2" />
+            <div className="h-3 bg-gray-100 rounded w-32" />
           </div>
         ))}
       </div>
@@ -172,7 +172,7 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <h3 className="text-xs font-semibold text-slate-700">
+          <h3 className="text-xs font-semibold text-gray-700">
             Underwriting Conditions
           </h3>
           {openConditions.length > 0 && (
@@ -188,7 +188,7 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
         </div>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
+          className="flex items-center gap-1 text-[11px] font-medium text-[#171717] hover:text-[#171717]/70 transition-colors"
         >
           <Plus size={12} />
           Add Condition
@@ -199,7 +199,7 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
       {showForm && (
         <form
           onSubmit={handleAdd}
-          className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2"
+          className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg space-y-2"
         >
           <div className="flex gap-2">
             <select
@@ -230,14 +230,14 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3 py-1 text-[11px] text-slate-600 border border-slate-200 rounded-md hover:bg-white"
+              className="px-3 py-1 text-[11px] text-gray-600 border border-gray-200 rounded-md hover:bg-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-3 py-1 text-[11px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60"
+              className="px-3 py-1 text-[11px] font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-60"
             >
               {submitting ? 'Adding...' : 'Add Condition'}
             </button>
@@ -247,10 +247,10 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
 
       {/* Empty state */}
       {conditions.length === 0 && !showForm && (
-        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-slate-200 rounded-xl">
-          <FileCheck size={28} className="text-slate-200 mb-2" />
-          <p className="text-sm font-medium text-slate-500">No conditions yet</p>
-          <p className="text-xs text-slate-400 mt-0.5">
+        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-gray-200 rounded-xl">
+          <FileCheck size={28} className="text-gray-200 mb-2" />
+          <p className="text-sm font-medium text-gray-500">No conditions yet</p>
+          <p className="text-xs text-gray-400 mt-0.5">
             Add underwriting conditions to track items that need to be cleared.
           </p>
         </div>
@@ -265,8 +265,8 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
           <div key={type} className="mb-4">
             <div className="flex items-center gap-2 mb-2">
               <TypeBadge variant={typeVariant[type]}>{typeLabel[type]}</TypeBadge>
-              <span className="text-[10px] text-slate-500">{typeInfo.label}</span>
-              <span className="text-[10px] text-slate-400">({items.length})</span>
+              <span className="text-[10px] text-gray-500">{typeInfo.label}</span>
+              <span className="text-[10px] text-gray-400">({items.length})</span>
             </div>
             <div className="space-y-2">
               {items.map((cond) => (
@@ -289,24 +289,24 @@ export function ConditionsTab({ loanId, onNotify }: ConditionsTabProps) {
 
       {/* Sign-off summary */}
       {conditions.length > 0 && (
-        <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+        <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="text-center">
-                <p className="text-lg font-bold text-slate-800">{conditions.length}</p>
-                <p className="text-[9px] text-slate-400 uppercase">Total</p>
+                <p className="text-lg font-bold text-gray-800">{conditions.length}</p>
+                <p className="text-[9px] text-gray-400 uppercase">Total</p>
               </div>
-              <div className="w-px h-8 bg-slate-200" />
+              <div className="w-px h-8 bg-gray-200" />
               <div className="text-center">
                 <p className="text-lg font-bold text-green-600">{clearedConditions.length}</p>
-                <p className="text-[9px] text-slate-400 uppercase">Cleared</p>
+                <p className="text-[9px] text-gray-400 uppercase">Cleared</p>
               </div>
-              <div className="w-px h-8 bg-slate-200" />
+              <div className="w-px h-8 bg-gray-200" />
               <div className="text-center">
                 <p className={cn('text-lg font-bold', openConditions.length > 0 ? 'text-amber-600' : 'text-green-600')}>
                   {openConditions.length}
                 </p>
-                <p className="text-[9px] text-slate-400 uppercase">Open</p>
+                <p className="text-[9px] text-gray-400 uppercase">Open</p>
               </div>
             </div>
             {openConditions.length === 0 && conditions.length > 0 && (
@@ -338,7 +338,7 @@ function ConditionRow({
   const StatusIcon = cfg.icon;
 
   return (
-    <div className="p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors group">
+    <div className="p-3 bg-white border border-gray-200 rounded-lg hover:border-gray-300 transition-colors group">
       <div className="flex items-start gap-3">
         {/* Status icon / click to clear */}
         <button
@@ -349,22 +349,22 @@ function ConditionRow({
           {condition.status === 'cleared' ? (
             <CheckCircle2 size={16} className="text-green-500" />
           ) : (
-            <Circle size={16} className="text-slate-300 hover:text-green-500" />
+            <Circle size={16} className="text-gray-300 hover:text-green-500" />
           )}
         </button>
 
         <div className="flex-1 min-w-0">
           <p className={cn(
             'text-xs font-medium',
-            condition.status === 'cleared' ? 'text-slate-400 line-through' : 'text-slate-800'
+            condition.status === 'cleared' ? 'text-gray-400 line-through' : 'text-gray-800'
           )}>
             {condition.title}
           </p>
           {condition.description && (
-            <p className="text-[10px] text-slate-400 mt-0.5">{condition.description}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5">{condition.description}</p>
           )}
           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-            <span className="text-[10px] text-slate-400">
+            <span className="text-[10px] text-gray-400">
               Added by {condition.addedBy} &middot; {formatDate(condition.createdAt)}
             </span>
             {condition.clearedBy && (
@@ -387,13 +387,13 @@ function ConditionRow({
           <div className="relative">
             <button
               onClick={() => setShowActions((v) => !v)}
-              className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 opacity-0 group-hover:opacity-100 transition-all text-[10px]"
+              className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-all text-[10px]"
               title="Change status"
             >
               <AlertCircle size={13} />
             </button>
             {showActions && (
-              <div className="absolute right-0 top-full mt-1 w-36 bg-white border border-slate-200 rounded-lg shadow-lg z-50 overflow-hidden">
+              <div className="absolute right-0 top-full mt-1 w-36 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
                 {(Object.keys(statusConfig) as ConditionStatus[]).map((status) => {
                   const sc = statusConfig[status];
                   const Icon = sc.icon;
@@ -402,8 +402,8 @@ function ConditionRow({
                       key={status}
                       onClick={() => { onStatusChange(status); setShowActions(false); }}
                       className={cn(
-                        'w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors text-left',
-                        condition.status === status ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-600'
+                        'w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors text-left',
+                        condition.status === status ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600'
                       )}
                     >
                       <Icon size={12} />
@@ -411,7 +411,7 @@ function ConditionRow({
                     </button>
                   );
                 })}
-                <div className="border-t border-slate-100">
+                <div className="border-t border-gray-100">
                   <button
                     onClick={() => { onDelete(); setShowActions(false); }}
                     className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-500 hover:bg-red-50 transition-colors text-left"
@@ -437,7 +437,7 @@ function ClearedSection({ conditions }: { conditions: LoanCondition[] }) {
     <div className="mt-4">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-700 mb-2"
+        className="flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-gray-700 mb-2"
       >
         <ChevronUp
           size={12}
@@ -449,11 +449,11 @@ function ClearedSection({ conditions }: { conditions: LoanCondition[] }) {
       {open && (
         <div className="space-y-1.5 opacity-60">
           {conditions.map((cond) => (
-            <div key={cond.id} className="flex items-center gap-3 p-2.5 bg-white border border-slate-100 rounded-lg">
+            <div key={cond.id} className="flex items-center gap-3 p-2.5 bg-white border border-gray-100 rounded-lg">
               <CheckCircle2 size={14} className="text-green-500 shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-slate-500 line-through truncate">{cond.title}</p>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-xs text-gray-500 line-through truncate">{cond.title}</p>
+                <p className="text-[10px] text-gray-400">
                   {cond.status === 'waived' ? 'Waived' : 'Cleared'} by {cond.clearedBy} &middot; {cond.clearedAt ? formatDate(cond.clearedAt) : ''}
                 </p>
               </div>

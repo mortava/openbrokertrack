@@ -2,12 +2,12 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --color-primary: #2563eb;
+  --color-primary: #171717;
 }
 
 body {
-  background: #f8fafc;
-  color: #0f172a;
+  background: #FAFAFA;
+  color: #171717;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
@@ -20,9 +20,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D1D5DB;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #9CA3AF;
 }

@@ -44,20 +44,20 @@ export function DetailHeader({ loan, onRefetch }: DetailHeaderProps) {
   const loanLabel = loan.loanNumber ?? `LN-${loan.id.slice(0, 6).toUpperCase()}`;
 
   return (
-    <div className="bg-white border-b border-slate-200 px-6 py-4 shrink-0">
+    <div className="bg-white border-b border-gray-200 px-6 py-4 shrink-0">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
+      <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
         <Link
           href="/pipeline"
-          className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+          className="flex items-center gap-1 hover:text-[#171717] transition-colors"
         >
           <ArrowLeft size={13} />
           Pipeline
         </Link>
-        <span className="text-slate-300">/</span>
-        <span className="text-slate-400">{loanLabel}</span>
-        <span className="text-slate-300">/</span>
-        <span className="font-medium text-slate-700 truncate max-w-[200px]">
+        <span className="text-gray-300">/</span>
+        <span className="text-gray-400">{loanLabel}</span>
+        <span className="text-gray-300">/</span>
+        <span className="font-medium text-gray-700 truncate max-w-[200px]">
           {loan.borrowerName}
         </span>
       </div>
@@ -66,11 +66,11 @@ export function DetailHeader({ loan, onRefetch }: DetailHeaderProps) {
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-lg font-bold text-slate-900 truncate">
+            <h1 className="text-lg font-bold text-gray-900 truncate">
               {loan.borrowerName}
             </h1>
             {loan.borrowerName2 && (
-              <span className="text-sm text-slate-500">& {loan.borrowerName2}</span>
+              <span className="text-sm text-gray-500">& {loan.borrowerName2}</span>
             )}
 
             {/* Status badge + dropdown */}
@@ -82,11 +82,11 @@ export function DetailHeader({ loan, onRefetch }: DetailHeaderProps) {
                 title="Change status"
               >
                 <StageBadge stage={loan.status} size="md" />
-                <ChevronDown size={12} className="text-slate-400 -ml-0.5" />
+                <ChevronDown size={12} className="text-gray-400 -ml-0.5" />
               </button>
 
               {statusOpen && (
-                <div className="absolute top-full left-0 mt-1 z-20 w-44 bg-white border border-slate-200 rounded-lg shadow-lg py-1 overflow-hidden">
+                <div className="absolute top-full left-0 mt-1 z-20 w-44 bg-white border border-gray-200 rounded-lg shadow-lg py-1 overflow-hidden">
                   {PIPELINE_STAGES.map((stage) => {
                     const config = STAGE_CONFIG[stage];
                     const isActive = stage === loan.status;
@@ -94,19 +94,19 @@ export function DetailHeader({ loan, onRefetch }: DetailHeaderProps) {
                       <button
                         key={stage}
                         onClick={() => handleStatusChange(stage)}
-                        className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-slate-50 transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors text-left"
                       >
                         <span
                           className="w-1.5 h-1.5 rounded-full shrink-0"
                           style={{ backgroundColor: config.color }}
                         />
                         <span
-                          className={isActive ? 'font-semibold text-slate-900' : 'text-slate-700'}
+                          className={isActive ? 'font-semibold text-gray-900' : 'text-gray-700'}
                         >
                           {config.label}
                         </span>
                         {isActive && (
-                          <Check size={11} className="ml-auto text-blue-600" />
+                          <Check size={11} className="ml-auto text-[#171717]" />
                         )}
                       </button>
                     );
@@ -116,7 +116,7 @@ export function DetailHeader({ loan, onRefetch }: DetailHeaderProps) {
             </div>
           </div>
 
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-gray-500 mt-0.5">
             {loanLabel} &middot; {loan.propertyAddress}, {loan.propertyCity},{' '}
             {loan.propertyState}
           </p>
@@ -156,12 +156,12 @@ function QuickStat({
 }) {
   return (
     <div className="flex flex-col">
-      <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">
+      <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
         {label}
       </span>
       <span
         className={`text-sm font-semibold tabular-nums ${
-          dimEmpty ? 'text-slate-300' : 'text-slate-800'
+          dimEmpty ? 'text-gray-300' : 'text-gray-800'
         }`}
       >
         {value}

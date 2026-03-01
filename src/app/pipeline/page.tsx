@@ -60,14 +60,14 @@ export default function PipelinePage() {
   return (
     <div className="flex flex-col h-full">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-200 bg-white shrink-0">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 bg-white shrink-0">
         <div className="flex items-center gap-3">
-          <h1 className="text-sm font-semibold text-slate-900">Pipeline</h1>
+          <h1 className="text-sm font-semibold text-gray-900">Pipeline</h1>
           {!loading && (
-            <span className="text-[11px] text-slate-500 tabular-nums">
+            <span className="text-[11px] text-gray-500 tabular-nums">
               {filtered.length}{' '}
               {filtered.length !== loans.length && (
-                <span className="text-slate-400">of {loans.length} </span>
+                <span className="text-gray-400">of {loans.length} </span>
               )}
               loan{filtered.length !== 1 ? 's' : ''}
             </span>
@@ -75,7 +75,7 @@ export default function PipelinePage() {
           {hasActiveFilters && (
             <button
               onClick={() => setFilters(DEFAULT_FILTERS)}
-              className="flex items-center gap-1 text-[11px] text-blue-600 hover:text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full"
+              className="flex items-center gap-1 text-[11px] text-[#171717] hover:text-[#171717]/70 bg-gray-100 px-2 py-0.5 rounded-full"
             >
               <X size={10} />
               Clear filters
@@ -89,14 +89,14 @@ export default function PipelinePage() {
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border transition-colors',
               showFilters
-                ? 'bg-blue-50 text-blue-700 border-blue-200'
-                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                ? 'bg-gray-100 text-gray-900 border-gray-300'
+                : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
             )}
           >
             <SlidersHorizontal size={13} />
             Filters
             {hasActiveFilters && (
-              <span className="w-4 h-4 bg-blue-600 text-white rounded-full text-[9px] font-bold flex items-center justify-center">
+              <span className="w-4 h-4 bg-[#171717] text-white rounded-full text-[9px] font-bold flex items-center justify-center">
                 {[
                   filters.stages.length > 0,
                   filters.borrowerName !== '',
@@ -112,7 +112,7 @@ export default function PipelinePage() {
 
           <button
             onClick={() => setShowCreate(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-[#171717] hover:bg-[#171717]/90 rounded-md transition-colors"
           >
             <Plus size={13} />
             Create
@@ -126,16 +126,16 @@ export default function PipelinePage() {
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full" />
+              <div className="animate-spin w-6 h-6 border-2 border-[#171717] border-t-transparent rounded-full" />
             </div>
           ) : error ? (
             <div className="flex items-center justify-center h-64">
               <div className="text-center">
                 <p className="text-sm font-medium text-red-600 mb-1">Failed to load loans</p>
-                <p className="text-xs text-slate-500 mb-3">{error}</p>
+                <p className="text-xs text-gray-500 mb-3">{error}</p>
                 <button
                   onClick={refetch}
-                  className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                  className="px-3 py-1.5 text-xs font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90"
                 >
                   Retry
                 </button>
@@ -148,7 +148,7 @@ export default function PipelinePage() {
 
         {/* Filters sidebar */}
         {showFilters && (
-          <div className="w-56 shrink-0 border-l border-slate-200 bg-white overflow-y-auto">
+          <div className="w-56 shrink-0 border-l border-gray-200 bg-white overflow-y-auto">
             <PipelineFilters
               filters={filters}
               onChange={setFilters}

@@ -10,10 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'OpenBrokerTrack',
-  description: 'Mortgage Loan Pipeline Management',
+  title: 'OpenBroker LOS',
+  description: 'Mortgage Loan Origination System',
   icons: {
-    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%232563eb"/><text x="50" y="68" font-size="52" font-weight="bold" fill="white" text-anchor="middle" font-family="system-ui">OB</text></svg>',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"><path d="M6 14V38a3 3 0 003 3h30a3 3 0 003-3V18a3 3 0 00-3-3H25l-3-4H9a3 3 0 00-3 3z" stroke="%23000" stroke-width="2.5" stroke-linejoin="round"/><circle cx="16" cy="28" r="3" fill="%23000"/><circle cx="24" cy="28" r="3" fill="%23000"/><circle cx="32" cy="28" r="3" fill="%23000"/><line x1="19" y1="28" x2="21" y2="28" stroke="%23000" stroke-width="2" stroke-linecap="round"/><line x1="27" y1="28" x2="29" y2="28" stroke="%23000" stroke-width="2" stroke-linecap="round"/><path d="M35 28l3 0" stroke="%23000" stroke-width="2" stroke-linecap="round"/><path d="M36 25.5l2.5 2.5-2.5 2.5" stroke="%23000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   },
 };
 

@@ -52,7 +52,7 @@ export default function LoanDetailPage({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full" />
+        <div className="animate-spin w-6 h-6 border-2 border-[#171717] border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -61,12 +61,12 @@ export default function LoanDetailPage({
   if (error || !loan) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-3">
-        <p className="text-sm font-medium text-slate-700">
+        <p className="text-sm font-medium text-gray-700">
           {error ?? 'Loan not found'}
         </p>
         <Link
           href="/pipeline"
-          className="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700"
+          className="flex items-center gap-1.5 text-xs text-[#171717] hover:text-[#171717]/70"
         >
           <ArrowLeft size={13} />
           Back to Pipeline
@@ -83,7 +83,7 @@ export default function LoanDetailPage({
       {/* Body: sidebar nav + content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left sidebar navigation */}
-        <nav className="w-44 shrink-0 border-r border-slate-200 bg-white py-3 overflow-y-auto">
+        <nav className="w-44 shrink-0 border-r border-gray-200 bg-white py-3 overflow-y-auto">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -96,8 +96,8 @@ export default function LoanDetailPage({
                 className={cn(
                   'w-full flex items-center gap-2.5 px-4 py-2 text-xs font-medium transition-colors text-left',
                   isActive
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    ? 'text-[#171717] bg-gray-100'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 )}
               >
                 <Icon size={14} className="shrink-0" />
@@ -107,8 +107,8 @@ export default function LoanDetailPage({
                     className={cn(
                       'text-[10px] font-semibold px-1.5 py-0.5 rounded-full min-w-[18px] text-center',
                       isActive
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-slate-100 text-slate-500'
+                        ? 'bg-gray-200 text-gray-700'
+                        : 'bg-gray-100 text-gray-500'
                     )}
                   >
                     {count}
@@ -120,7 +120,7 @@ export default function LoanDetailPage({
         </nav>
 
         {/* Tab content */}
-        <main className="flex-1 overflow-y-auto bg-slate-50 p-5">
+        <main className="flex-1 overflow-y-auto bg-[#FAFAFA] p-5">
           <div className="max-w-4xl mx-auto">
             {activeTab === 'overview' && (
               <OverviewTab loan={loan} onRefetch={refetch} />

@@ -193,17 +193,17 @@ export default function MarketingPage() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto bg-slate-50">
+    <div className="flex flex-col h-full overflow-y-auto bg-gray-50">
       <div className="p-5 space-y-5 max-w-6xl mx-auto w-full">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-[#171717] flex items-center justify-center">
               <Megaphone size={18} className="text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-slate-900">Marketing Center</h1>
-              <p className="text-xs text-slate-500">Send emails to your contacts directly from the portal</p>
+              <h1 className="text-lg font-bold text-gray-900">Marketing Center</h1>
+              <p className="text-xs text-gray-500">Send emails to your contacts directly from the portal</p>
             </div>
           </div>
         </div>
@@ -215,8 +215,8 @@ export default function MarketingPage() {
             className={cn(
               'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all',
               mode === 'bulk'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                ? 'bg-[#171717] text-white shadow-sm'
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
             )}
           >
             <Users size={14} />
@@ -227,8 +227,8 @@ export default function MarketingPage() {
             className={cn(
               'flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all',
               mode === 'single'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                ? 'bg-[#171717] text-white shadow-sm'
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
             )}
           >
             <Mail size={14} />
@@ -239,9 +239,9 @@ export default function MarketingPage() {
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-5">
           {/* Left: Recipients */}
           <div className="xl:col-span-2">
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-              <div className="px-4 py-3 border-b border-slate-100">
-                <h3 className="text-xs font-semibold text-slate-700 flex items-center gap-2">
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="px-4 py-3 border-b border-gray-100">
+                <h3 className="text-xs font-semibold text-gray-700 flex items-center gap-2">
                   <UserCheck size={13} />
                   {mode === 'bulk' ? 'Select Recipients' : 'Recipient'}
                 </h3>
@@ -250,7 +250,7 @@ export default function MarketingPage() {
               {mode === 'single' ? (
                 <div className="p-4 space-y-3">
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                    <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                       Name
                     </label>
                     <input
@@ -258,11 +258,11 @@ export default function MarketingPage() {
                       value={singleName}
                       onChange={(e) => setSingleName(e.target.value)}
                       placeholder="Recipient name"
-                      className="w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400"
+                      className="w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                    <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                       Email Address
                     </label>
                     <input
@@ -270,33 +270,33 @@ export default function MarketingPage() {
                       value={singleEmail}
                       onChange={(e) => setSingleEmail(e.target.value)}
                       placeholder="email@example.com"
-                      className="w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400"
+                      className="w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
               ) : (
                 <>
                   {/* Search + actions */}
-                  <div className="px-4 py-2 border-b border-slate-50">
+                  <div className="px-4 py-2 border-b border-gray-50">
                     <div className="relative mb-2">
-                      <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                       <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search contacts..."
-                        className="w-full pl-7 pr-3 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 bg-slate-50 placeholder:text-slate-400"
+                        className="w-full pl-7 pr-3 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 bg-gray-50 placeholder:text-gray-400"
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[10px] text-gray-400">
                         {selectedContacts.size} of {contacts.length} selected
                       </span>
                       <div className="flex gap-2">
-                        <button onClick={selectAllVisible} className="text-[10px] text-blue-600 hover:text-blue-700 font-medium">
+                        <button onClick={selectAllVisible} className="text-[10px] text-[#171717] hover:text-[#171717]/70 font-medium">
                           Select All
                         </button>
-                        <button onClick={clearSelection} className="text-[10px] text-slate-400 hover:text-slate-600 font-medium">
+                        <button onClick={clearSelection} className="text-[10px] text-gray-400 hover:text-gray-600 font-medium">
                           Clear
                         </button>
                       </div>
@@ -308,19 +308,19 @@ export default function MarketingPage() {
                     {contactsLoading ? (
                       <div className="p-4 space-y-2">
                         {[...Array(5)].map((_, i) => (
-                          <div key={i} className="h-8 bg-slate-100 rounded animate-pulse" />
+                          <div key={i} className="h-8 bg-gray-100 rounded animate-pulse" />
                         ))}
                       </div>
                     ) : filteredContacts.length === 0 ? (
-                      <div className="p-8 text-center text-slate-400">
+                      <div className="p-8 text-center text-gray-400">
                         <Users size={20} className="mx-auto mb-2 opacity-30" />
                         <p className="text-xs">No contacts found</p>
                       </div>
                     ) : (
                       Object.entries(contactsByType).map(([type, typeContacts]) => (
                         <div key={type}>
-                          <div className="px-4 py-1.5 bg-slate-50 border-y border-slate-100">
-                            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                          <div className="px-4 py-1.5 bg-gray-50 border-y border-gray-100">
+                            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
                               {type} ({typeContacts.length})
                             </span>
                           </div>
@@ -332,21 +332,21 @@ export default function MarketingPage() {
                                 onClick={() => toggleContact(contact.id)}
                                 className={cn(
                                   'w-full flex items-center gap-2.5 px-4 py-2 text-left transition-colors',
-                                  isSelected ? 'bg-blue-50' : 'hover:bg-slate-50'
+                                  isSelected ? 'bg-gray-100' : 'hover:bg-gray-50'
                                 )}
                               >
                                 <div className={cn(
                                   'w-4 h-4 rounded border flex items-center justify-center shrink-0',
-                                  isSelected ? 'bg-blue-600 border-blue-600' : 'border-slate-300'
+                                  isSelected ? 'bg-[#171717] border-[#171717]' : 'border-gray-300'
                                 )}>
                                   {isSelected && <Check size={10} className="text-white" />}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-xs font-medium text-slate-800 truncate">{contact.name}</p>
-                                  <p className="text-[10px] text-slate-400 truncate">{contact.email}</p>
+                                  <p className="text-xs font-medium text-gray-800 truncate">{contact.name}</p>
+                                  <p className="text-[10px] text-gray-400 truncate">{contact.email}</p>
                                 </div>
                                 {contact.company && (
-                                  <span className="text-[10px] text-slate-400 shrink-0">{contact.company}</span>
+                                  <span className="text-[10px] text-gray-400 shrink-0">{contact.company}</span>
                                 )}
                               </button>
                             );
@@ -363,10 +363,10 @@ export default function MarketingPage() {
           {/* Right: Compose */}
           <div className="xl:col-span-3 space-y-4">
             {/* Template selector */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles size={13} className="text-purple-500" />
-                <h3 className="text-xs font-semibold text-slate-700">Email Template</h3>
+                <h3 className="text-xs font-semibold text-gray-700">Email Template</h3>
               </div>
               <div className="flex gap-2 flex-wrap">
                 {EMAIL_TEMPLATES.map((tmpl) => (
@@ -376,8 +376,8 @@ export default function MarketingPage() {
                     className={cn(
                       'px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all',
                       selectedTemplate.id === tmpl.id
-                        ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                        : 'bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100'
+                        ? 'bg-gray-100 text-gray-900 border border-gray-300'
+                        : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'
                     )}
                   >
                     {tmpl.name}
@@ -387,14 +387,14 @@ export default function MarketingPage() {
             </div>
 
             {/* Compose area */}
-            <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
               <div className="flex items-center gap-2 mb-1">
-                <FileText size={13} className="text-slate-500" />
-                <h3 className="text-xs font-semibold text-slate-700">Compose Email</h3>
+                <FileText size={13} className="text-gray-500" />
+                <h3 className="text-xs font-semibold text-gray-700">Compose Email</h3>
               </div>
 
               <div>
-                <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                   Subject
                 </label>
                 <input
@@ -402,14 +402,14 @@ export default function MarketingPage() {
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   placeholder="Email subject..."
-                  className="w-full px-3 py-2 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400"
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400"
                 />
               </div>
 
               <div>
-                <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                   Body
-                  <span className="text-slate-400 font-normal ml-1">
+                  <span className="text-gray-400 font-normal ml-1">
                     (use {'{{name}}'} for recipient, {'{{sender}}'} for your name)
                   </span>
                 </label>
@@ -417,7 +417,7 @@ export default function MarketingPage() {
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
                   rows={12}
-                  className="w-full px-3 py-2 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400 resize-none font-mono leading-relaxed"
+                  className="w-full px-3 py-2 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400 resize-none font-mono leading-relaxed"
                   placeholder="Write your email here..."
                 />
               </div>
@@ -435,7 +435,7 @@ export default function MarketingPage() {
 
               {/* Send button */}
               <div className="flex items-center justify-between pt-2">
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-gray-400">
                   {mode === 'bulk'
                     ? `Sending to ${selectedContacts.size} contact${selectedContacts.size !== 1 ? 's' : ''}`
                     : singleEmail ? `Sending to ${singleEmail}` : 'Enter a recipient email'
@@ -444,7 +444,7 @@ export default function MarketingPage() {
                 <button
                   onClick={handleSend}
                   disabled={sending}
-                  className="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:opacity-60 shadow-sm transition-all"
+                  className="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-[#171717] rounded-lg hover:bg-[#171717]/90 disabled:opacity-60 shadow-sm transition-all"
                 >
                   {sending ? (
                     <>

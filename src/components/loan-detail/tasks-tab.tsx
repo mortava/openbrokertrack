@@ -24,7 +24,7 @@ const priorityConfig: Record<
 };
 
 const inputClass =
-  'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400';
+  'w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400';
 
 export function TasksTab({ loanId, tasks, onRefetch }: TasksTabProps) {
   const [showForm, setShowForm] = useState(false);
@@ -67,17 +67,17 @@ export function TasksTab({ loanId, tasks, onRefetch }: TasksTabProps) {
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs font-semibold text-slate-700">
+        <h3 className="text-xs font-semibold text-gray-700">
           Tasks
           {open.length > 0 && (
-            <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-blue-50 text-blue-700 rounded-full">
+            <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-900 rounded-full">
               {open.length} open
             </span>
           )}
         </h3>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
+          className="flex items-center gap-1 text-[11px] font-medium text-[#171717] hover:text-[#171717]/70 transition-colors"
         >
           <Plus size={12} />
           Add Task
@@ -88,7 +88,7 @@ export function TasksTab({ loanId, tasks, onRefetch }: TasksTabProps) {
       {showForm && (
         <form
           onSubmit={handleAddTask}
-          className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2"
+          className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg space-y-2"
         >
           <input
             type="text"
@@ -120,14 +120,14 @@ export function TasksTab({ loanId, tasks, onRefetch }: TasksTabProps) {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-3 py-1 text-[11px] text-slate-600 border border-slate-200 rounded-md hover:bg-white"
+              className="px-3 py-1 text-[11px] text-gray-600 border border-gray-200 rounded-md hover:bg-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !title.trim()}
-              className="px-3 py-1 text-[11px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60"
+              className="px-3 py-1 text-[11px] font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-60"
             >
               {submitting ? 'Adding...' : 'Add Task'}
             </button>
@@ -137,10 +137,10 @@ export function TasksTab({ loanId, tasks, onRefetch }: TasksTabProps) {
 
       {/* Empty state */}
       {tasks.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-slate-200 rounded-xl">
-          <CheckCircle2 size={28} className="text-slate-200 mb-2" />
-          <p className="text-sm font-medium text-slate-500">No tasks yet</p>
-          <p className="text-xs text-slate-400 mt-0.5">
+        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-gray-200 rounded-xl">
+          <CheckCircle2 size={28} className="text-gray-200 mb-2" />
+          <p className="text-sm font-medium text-gray-500">No tasks yet</p>
+          <p className="text-xs text-gray-400 mt-0.5">
             Add tasks to track conditions and follow-ups.
           </p>
         </div>
@@ -185,18 +185,18 @@ function TaskRow({
     <div
       className={cn(
         'flex items-start gap-3 p-3 bg-white border rounded-lg transition-colors',
-        task.completed ? 'border-slate-100 opacity-60' : 'border-slate-200 hover:border-slate-300'
+        task.completed ? 'border-gray-100 opacity-60' : 'border-gray-200 hover:border-gray-300'
       )}
     >
       <button
         onClick={onComplete}
         disabled={task.completed || completing}
-        className="shrink-0 mt-0.5 text-slate-300 hover:text-blue-500 transition-colors disabled:cursor-default"
+        className="shrink-0 mt-0.5 text-gray-300 hover:text-[#171717] transition-colors disabled:cursor-default"
       >
         {task.completed ? (
           <CheckCircle2 size={16} className="text-green-500" />
         ) : completing ? (
-          <span className="w-4 h-4 border border-slate-300 border-t-blue-500 rounded-full animate-spin block" />
+          <span className="w-4 h-4 border border-gray-300 border-t-[#171717] rounded-full animate-spin block" />
         ) : (
           <Circle size={16} />
         )}
@@ -205,8 +205,8 @@ function TaskRow({
       <div className="flex-1 min-w-0">
         <p
           className={cn(
-            'text-xs font-medium text-slate-800',
-            task.completed && 'line-through text-slate-400'
+            'text-xs font-medium text-gray-800',
+            task.completed && 'line-through text-gray-400'
           )}
         >
           {task.title}
@@ -216,7 +216,7 @@ function TaskRow({
             <span
               className={cn(
                 'flex items-center gap-0.5 text-[10px]',
-                isOverdue ? 'text-red-500' : 'text-slate-400'
+                isOverdue ? 'text-red-500' : 'text-gray-400'
               )}
             >
               {isOverdue && <AlertCircle size={10} />}
@@ -238,7 +238,7 @@ function CompletedSection({ tasks }: { tasks: Task[] }) {
     <div className="mt-4">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-700 mb-2"
+        className="flex items-center gap-1.5 text-[11px] text-gray-500 hover:text-gray-700 mb-2"
       >
         <ChevronUp
           size={12}

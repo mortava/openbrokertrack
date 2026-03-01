@@ -116,19 +116,19 @@ export default function FundingHistory() {
   const currentBucket = allBuckets[currentMonthKey];
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 flex flex-col">
+    <div className="bg-white rounded-xl border border-gray-200 flex flex-col">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between shrink-0">
+      <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
           <TrendingUp size={14} className="text-green-600" />
-          <h3 className="text-sm font-semibold text-slate-900">Funding History</h3>
+          <h3 className="text-sm font-semibold text-gray-900">Funding History</h3>
         </div>
 
         {/* Month selector dropdown */}
         <div className="relative">
           <button
             onClick={() => setDropdownOpen((v) => !v)}
-            className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-md hover:bg-slate-100 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors"
           >
             {selectedMonths.size === 1 && selectedMonths.has(currentMonthKey)
               ? 'Month to Date'
@@ -138,13 +138,13 @@ export default function FundingHistory() {
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-slate-200 rounded-lg shadow-lg z-50 overflow-hidden">
+            <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
               {/* Quick actions */}
-              <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Select Months</span>
+              <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
+                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Select Months</span>
                 <div className="flex gap-2">
-                  <button onClick={selectAll} className="text-[10px] text-blue-600 hover:text-blue-700 font-medium">All</button>
-                  <button onClick={clearAll} className="text-[10px] text-slate-400 hover:text-slate-600 font-medium">Reset</button>
+                  <button onClick={selectAll} className="text-[10px] text-[#171717] hover:text-[#171717]/70 font-medium">All</button>
+                  <button onClick={clearAll} className="text-[10px] text-gray-400 hover:text-gray-600 font-medium">Reset</button>
                 </div>
               </div>
 
@@ -159,12 +159,12 @@ export default function FundingHistory() {
                       onClick={() => toggleMonth(key)}
                       className={cn(
                         'w-full flex items-center gap-2 px-3 py-1.5 text-xs transition-colors text-left',
-                        isSelected ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'
+                        isSelected ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
                       )}
                     >
                       <div className={cn(
                         'w-3.5 h-3.5 rounded border flex items-center justify-center shrink-0',
-                        isSelected ? 'bg-blue-600 border-blue-600' : 'border-slate-300'
+                        isSelected ? 'bg-[#171717] border-[#171717]' : 'border-gray-300'
                       )}>
                         {isSelected && <Check size={9} className="text-white" />}
                       </div>
@@ -177,10 +177,10 @@ export default function FundingHistory() {
                 })}
               </div>
 
-              <div className="border-t border-slate-100 px-3 py-2">
+              <div className="border-t border-gray-100 px-3 py-2">
                 <button
                   onClick={() => setDropdownOpen(false)}
-                  className="w-full text-center text-[10px] font-medium text-blue-600 hover:text-blue-700"
+                  className="w-full text-center text-[10px] font-medium text-[#171717] hover:text-[#171717]/70"
                 >
                   Done
                 </button>
@@ -192,7 +192,7 @@ export default function FundingHistory() {
 
       {/* MTD Summary Card */}
       {currentBucket && (
-        <div className="px-4 py-3 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-slate-100">
+        <div className="px-4 py-3 bg-green-50 border-b border-gray-100">
           <p className="text-[10px] font-semibold text-green-700 uppercase tracking-wider mb-1">Month to Date — March 2026</p>
           <div className="flex items-center gap-6">
             <div>
@@ -211,14 +211,14 @@ export default function FundingHistory() {
         <div className="p-4 space-y-2">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="flex gap-3 animate-pulse">
-              <div className="h-3 bg-slate-100 rounded w-16" />
-              <div className="h-3 bg-slate-100 rounded w-8 ml-auto" />
-              <div className="h-3 bg-slate-100 rounded w-20" />
+              <div className="h-3 bg-gray-100 rounded w-16" />
+              <div className="h-3 bg-gray-100 rounded w-8 ml-auto" />
+              <div className="h-3 bg-gray-100 rounded w-20" />
             </div>
           ))}
         </div>
       ) : rows.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-10 text-slate-400">
+        <div className="flex flex-col items-center justify-center py-10 text-gray-400">
           <TrendingUp size={24} className="mb-2 opacity-30" />
           <p className="text-xs font-medium">No months selected</p>
           <p className="text-[10px] mt-0.5">Use the dropdown to select months to display</p>
@@ -227,7 +227,7 @@ export default function FundingHistory() {
         <div className="overflow-auto">
           <table className="w-full text-[11px]">
             <thead>
-              <tr className="text-slate-400 border-b border-slate-100 sticky top-0 bg-white">
+              <tr className="text-gray-400 border-b border-gray-100 sticky top-0 bg-white">
                 <th className="text-left font-medium px-4 py-2">Period</th>
                 <th className="text-right font-medium px-4 py-2"># Loans</th>
                 <th className="text-right font-medium px-4 py-2">Total Volume</th>
@@ -237,20 +237,20 @@ export default function FundingHistory() {
               {rows.map((row) => (
                 <tr
                   key={row.key}
-                  className={`border-b border-slate-50 last:border-0 transition-colors ${
-                    row.count > 0 ? 'hover:bg-slate-50' : ''
+                  className={`border-b border-gray-50 last:border-0 transition-colors ${
+                    row.count > 0 ? 'hover:bg-gray-50' : ''
                   }`}
                 >
-                  <td className={`px-4 py-1.5 font-medium ${row.count > 0 ? 'text-slate-800' : 'text-slate-300'}`}>
+                  <td className={`px-4 py-1.5 font-medium ${row.count > 0 ? 'text-gray-800' : 'text-gray-300'}`}>
                     {row.label}
                     {row.key === currentMonthKey && (
                       <span className="ml-1.5 text-[9px] font-semibold text-green-600 bg-green-50 px-1 py-0.5 rounded">MTD</span>
                     )}
                   </td>
-                  <td className={`px-4 py-1.5 text-right tabular-nums font-semibold ${row.count > 0 ? 'text-slate-900' : 'text-slate-300'}`}>
+                  <td className={`px-4 py-1.5 text-right tabular-nums font-semibold ${row.count > 0 ? 'text-gray-900' : 'text-gray-300'}`}>
                     {row.count > 0 ? row.count : '-'}
                   </td>
-                  <td className={`px-4 py-1.5 text-right tabular-nums ${row.count > 0 ? 'text-green-700 font-medium' : 'text-slate-300'}`}>
+                  <td className={`px-4 py-1.5 text-right tabular-nums ${row.count > 0 ? 'text-green-700 font-medium' : 'text-gray-300'}`}>
                     {row.count > 0 ? formatCurrency(row.volume) : '-'}
                   </td>
                 </tr>
@@ -258,9 +258,9 @@ export default function FundingHistory() {
             </tbody>
             {rows.length > 1 && (
               <tfoot>
-                <tr className="border-t-2 border-slate-200 bg-slate-50">
-                  <td className="px-4 py-2 font-bold text-slate-700">Total</td>
-                  <td className="px-4 py-2 text-right font-bold text-slate-900 tabular-nums">
+                <tr className="border-t-2 border-gray-200 bg-gray-50">
+                  <td className="px-4 py-2 font-bold text-gray-700">Total</td>
+                  <td className="px-4 py-2 text-right font-bold text-gray-900 tabular-nums">
                     {totalCount}
                   </td>
                   <td className="px-4 py-2 text-right font-bold text-green-700 tabular-nums">

@@ -38,7 +38,7 @@ const SIDEBAR_ITEMS: NavItem[] = [
 
 function GeneralInformationPanel() {
   const fields = [
-    { label: 'Company Name',    value: 'OpenBrokerTrack LLC' },
+    { label: 'Company Name',    value: 'OpenBroker LOS LLC' },
     { label: 'NMLS ID',         value: '123456' },
     { label: 'Street Address',  value: '100 Main Street' },
     { label: 'City',            value: 'Fort Lauderdale' },
@@ -52,19 +52,19 @@ function GeneralInformationPanel() {
   return (
     <div>
       <div className="mb-5">
-        <h2 className="text-base font-bold text-slate-900">General Information</h2>
-        <p className="text-xs text-slate-500 mt-0.5">Your company profile and contact details.</p>
+        <h2 className="text-base font-bold text-gray-900">General Information</h2>
+        <p className="text-xs text-gray-500 mt-0.5">Your company profile and contact details.</p>
       </div>
-      <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
+      <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
         {fields.map((f) => (
           <div key={f.label} className="flex items-center px-5 py-3 gap-4">
-            <span className="text-xs font-medium text-slate-500 w-40 shrink-0">{f.label}</span>
-            <span className="text-xs text-slate-800">{f.value}</span>
+            <span className="text-xs font-medium text-gray-500 w-40 shrink-0">{f.label}</span>
+            <span className="text-xs text-gray-800">{f.value}</span>
           </div>
         ))}
       </div>
       <div className="mt-4">
-        <button className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+        <button className="px-4 py-2 text-xs font-semibold text-white bg-[#171717] rounded-lg hover:bg-[#171717]/90 transition-colors">
           Edit Information
         </button>
       </div>
@@ -78,14 +78,14 @@ function ComingSoonPanel({ label }: { label: string }) {
   return (
     <div>
       <div className="mb-5">
-        <h2 className="text-base font-bold text-slate-900">{label}</h2>
+        <h2 className="text-base font-bold text-gray-900">{label}</h2>
       </div>
-      <div className="bg-white rounded-xl border border-slate-200 flex flex-col items-center justify-center py-16 text-slate-400">
-        <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
-          <span className="text-slate-300 text-xl">...</span>
+      <div className="bg-white rounded-xl border border-gray-200 flex flex-col items-center justify-center py-16 text-gray-400">
+        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+          <span className="text-gray-300 text-xl">...</span>
         </div>
-        <p className="text-sm font-medium text-slate-500">Coming Soon</p>
-        <p className="text-xs text-slate-400 mt-1">This section is under construction.</p>
+        <p className="text-sm font-medium text-gray-500">Coming Soon</p>
+        <p className="text-xs text-gray-400 mt-1">This section is under construction.</p>
       </div>
     </div>
   );
@@ -99,11 +99,11 @@ export default function SettingsPage() {
   const activeItem = SIDEBAR_ITEMS.find((i) => i.id === active)!;
 
   return (
-    <div className="flex h-full overflow-hidden bg-slate-50">
+    <div className="flex h-full overflow-hidden bg-gray-50">
       {/* Left sidebar */}
-      <aside className="w-48 shrink-0 bg-white border-r border-slate-200 overflow-y-auto flex flex-col">
-        <div className="px-4 py-3 border-b border-slate-100">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Settings</p>
+      <aside className="w-48 shrink-0 bg-white border-r border-gray-200 overflow-y-auto flex flex-col">
+        <div className="px-4 py-3 border-b border-gray-100">
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Settings</p>
         </div>
         <nav className="flex-1 py-2">
           {SIDEBAR_ITEMS.map((item) => {
@@ -116,13 +116,13 @@ export default function SettingsPage() {
                 className={cn(
                   'w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-colors',
                   isActive
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-gray-100 text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                 )}
               >
                 <Icon
                   size={14}
-                  className={cn('shrink-0', isActive ? 'text-blue-600' : 'text-slate-400')}
+                  className={cn('shrink-0', isActive ? 'text-[#171717]' : 'text-gray-400')}
                 />
                 <span className={cn('text-xs font-medium', isActive ? 'font-semibold' : '')}>
                   {item.label}

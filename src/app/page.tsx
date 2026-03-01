@@ -9,13 +9,13 @@ import FundingHistory from '@/components/dashboard/funding-history';
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col h-full overflow-y-auto bg-slate-50">
-      <div className="p-5 space-y-5">
+    <div className="flex flex-col h-full overflow-y-auto bg-[#FAFAFA]">
+      <div className="p-6 space-y-5">
         {/* Welcome row */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-slate-900">Welcome, James</h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <h1 className="text-xl font-bold text-gray-900">Welcome, James</h1>
+            <p className="text-xs text-gray-500 mt-0.5">
               {new Date().toLocaleDateString('en-US', {
                 weekday: 'long',
                 month: 'long',

@@ -20,7 +20,7 @@ const DEFAULT_USER: AppUser = {
   role: 'global_admin',
   tier: 'app_admin',
   companyId: null,
-  companyName: 'OpenBrokerTrack',
+  companyName: 'OpenBroker LOS',
   isActive: true,
   avatarInitials: 'JT',
   createdAt: '2024-01-01T00:00:00Z',

@@ -56,17 +56,17 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
 
       {/* Modal card */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} bg-white rounded-xl shadow-xl flex flex-col max-h-[90vh] animate-in fade-in slide-in-from-bottom-2 duration-200`}
+        className={`relative z-10 w-full ${sizeClasses[size]} bg-white rounded-xl border border-gray-200 shadow-lg flex flex-col max-h-[90vh] animate-in fade-in slide-in-from-bottom-2 duration-200`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 shrink-0">
-          <h2 id="modal-title" className="text-sm font-semibold text-slate-900">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 shrink-0">
+          <h2 id="modal-title" className="text-sm font-semibold text-gray-900">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
             aria-label="Close modal"
           >
             <X size={16} />

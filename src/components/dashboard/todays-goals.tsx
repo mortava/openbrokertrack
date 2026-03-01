@@ -21,8 +21,8 @@ import type { TaskPriority } from '@/types';
 const priorityConfig: Record<TaskPriority, { dot: string; label: string }> = {
   urgent: { dot: 'bg-red-500', label: 'Urgent' },
   high:   { dot: 'bg-orange-500', label: 'High' },
-  normal: { dot: 'bg-blue-500', label: 'Normal' },
-  low:    { dot: 'bg-slate-400', label: 'Low' },
+  normal: { dot: 'bg-gray-500', label: 'Normal' },
+  low:    { dot: 'bg-gray-400', label: 'Low' },
 };
 
 export default function TodaysGoals() {
@@ -74,13 +74,13 @@ export default function TodaysGoals() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 p-4 animate-pulse">
-        <div className="h-5 bg-slate-100 rounded w-40 mb-4" />
+      <div className="bg-white rounded-xl border border-gray-200 p-4 animate-pulse">
+        <div className="h-5 bg-gray-100 rounded w-40 mb-4" />
         <div className="space-y-3">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="flex gap-3 items-center">
-              <div className="w-5 h-5 bg-slate-100 rounded-full" />
-              <div className="flex-1 h-4 bg-slate-100 rounded" />
+              <div className="w-5 h-5 bg-gray-100 rounded-full" />
+              <div className="flex-1 h-4 bg-gray-100 rounded" />
             </div>
           ))}
         </div>
@@ -89,16 +89,16 @@ export default function TodaysGoals() {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+      <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-            <Target size={14} className="text-white" />
+          <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center">
+            <Target size={14} className="text-amber-600" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-slate-800">Today&apos;s Goals</h3>
-            <p className="text-[10px] text-slate-400">
+            <h3 className="text-sm font-semibold text-gray-800">Today&apos;s Goals</h3>
+            <p className="text-[10px] text-gray-400">
               {allItems.length} task{allItems.length !== 1 ? 's' : ''} remaining
               {completedToday > 0 && (
                 <span className="text-green-500 ml-1">&middot; {completedToday} done</span>
@@ -108,7 +108,7 @@ export default function TodaysGoals() {
         </div>
         <button
           onClick={() => setShowAdd((v) => !v)}
-          className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-blue-600 transition-colors"
+          className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-[#171717] transition-colors"
           title="Add task"
         >
           {showAdd ? <X size={14} /> : <Plus size={14} />}
@@ -117,20 +117,20 @@ export default function TodaysGoals() {
 
       {/* Quick add form */}
       {showAdd && (
-        <form onSubmit={handleQuickAdd} className="px-4 py-2.5 bg-slate-50 border-b border-slate-100">
+        <form onSubmit={handleQuickAdd} className="px-4 py-2.5 bg-gray-50 border-b border-gray-100">
           <div className="flex gap-2">
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="What needs to be done today?"
-              className="flex-1 px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400"
+              className="flex-1 px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400"
               autoFocus
             />
             <select
               value={newPriority}
               onChange={(e) => setNewPriority(e.target.value as TaskPriority)}
-              className="px-2 py-1.5 text-xs border border-slate-200 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="px-2 py-1.5 text-xs border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[#171717]/10"
             >
               <option value="low">Low</option>
               <option value="normal">Normal</option>
@@ -140,7 +140,7 @@ export default function TodaysGoals() {
             <button
               type="submit"
               disabled={adding || !newTitle.trim()}
-              className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="px-3 py-1.5 text-xs font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-50 transition-colors"
             >
               Add
             </button>
@@ -149,7 +149,7 @@ export default function TodaysGoals() {
       )}
 
       {/* Task list */}
-      <div className="divide-y divide-slate-50">
+      <div className="divide-y divide-gray-50 max-h-[400px] overflow-y-auto">
         {/* Overdue section */}
         {overdue.length > 0 && (
           <div className="px-4 py-2 bg-red-50/50">
@@ -178,7 +178,7 @@ export default function TodaysGoals() {
           <div className="px-4 py-2">
             <div className="flex items-center gap-1.5 mb-1.5">
               <Clock size={11} className="text-amber-500" />
-              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+              <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">
                 Due Today ({today.length})
               </span>
             </div>
@@ -202,8 +202,8 @@ export default function TodaysGoals() {
             <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-2">
               <Flame size={18} className="text-green-500" />
             </div>
-            <p className="text-sm font-medium text-slate-600">All clear!</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">
+            <p className="text-sm font-medium text-gray-600">All clear!</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">
               No tasks due today. Add a new goal to stay productive.
             </p>
           </div>
@@ -212,9 +212,9 @@ export default function TodaysGoals() {
 
       {/* Footer with streak/progress */}
       {allItems.length > 0 && (
-        <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50/50">
+        <div className="px-4 py-2.5 border-t border-gray-100 bg-gray-50/50">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-slate-400">
+            <span className="text-[10px] text-gray-400">
               {overdue.length > 0
                 ? `${overdue.length} overdue — tackle these first`
                 : 'Stay on track today'}
@@ -225,7 +225,7 @@ export default function TodaysGoals() {
                   key={i}
                   className={cn(
                     'w-1.5 h-1.5 rounded-full',
-                    completingIds.has(t.id) ? 'bg-green-400' : 'bg-slate-300'
+                    completingIds.has(t.id) ? 'bg-green-400' : 'bg-gray-300'
                   )}
                 />
               ))}
@@ -273,7 +273,7 @@ function TaskItem({
               'transition-colors',
               isOverdue
                 ? 'text-red-300 hover:text-green-500'
-                : 'text-slate-300 hover:text-green-500'
+                : 'text-gray-300 hover:text-green-500'
             )}
           />
         )}
@@ -284,17 +284,17 @@ function TaskItem({
         <span
           className={cn(
             'text-xs truncate',
-            isOverdue ? 'text-red-700 font-medium' : 'text-slate-700',
+            isOverdue ? 'text-red-700 font-medium' : 'text-gray-700',
           )}
         >
           {task.title}
         </span>
       </div>
 
-      <span className="text-[9px] text-slate-400 uppercase tracking-wide shrink-0 hidden group-hover:block">
+      <span className="text-[9px] text-gray-400 uppercase tracking-wide shrink-0 hidden group-hover:block">
         {task.category}
       </span>
-      <ChevronRight size={12} className="text-slate-300 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <ChevronRight size={12} className="text-gray-300 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
     </div>
   );
 }

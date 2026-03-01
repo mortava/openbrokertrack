@@ -17,7 +17,7 @@ interface PipelineListProps {
 }
 
 const thClass =
-  'px-1.5 py-2 text-left text-[9px] font-semibold text-slate-500 uppercase tracking-wider bg-slate-50';
+  'px-1.5 py-2 text-left text-[9px] font-semibold text-gray-500 uppercase tracking-wider bg-gray-50/50';
 
 const tdClass = 'px-1.5 py-2 align-middle overflow-hidden';
 
@@ -36,11 +36,11 @@ export function PipelineList({ loans }: PipelineListProps) {
   if (loans.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
-          <MessageSquare size={20} className="text-slate-400" />
+        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+          <MessageSquare size={20} className="text-gray-400" />
         </div>
-        <p className="text-sm font-medium text-slate-600">No loans found</p>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-sm font-medium text-gray-600">No loans found</p>
+        <p className="text-xs text-gray-400 mt-1">
           Try adjusting your filters or create a new loan.
         </p>
       </div>
@@ -64,7 +64,7 @@ export function PipelineList({ loans }: PipelineListProps) {
           <col className="w-[18%]" />  {/* Loan Officer — remaining ~100% */}
         </colgroup>
         <thead>
-          <tr className="border-b border-slate-200">
+          <tr className="border-b border-gray-200">
             <th className={thClass}>Loan</th>
             <th className={thClass}>Date</th>
             <th className={thClass}>Borrower</th>
@@ -89,19 +89,19 @@ export function PipelineList({ loans }: PipelineListProps) {
 }
 
 function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
-  const rowBg = isEven ? 'bg-slate-50/50' : 'bg-white';
+  const rowBg = isEven ? 'bg-gray-50/30' : 'bg-white';
 
   return (
     <tr
       className={cn(
         rowBg,
-        'border-b border-slate-100 hover:bg-blue-50/40 transition-colors'
+        'border-b border-gray-100 hover:bg-gray-50 transition-colors'
       )}
     >
       {/* Loan # + Stage stacked */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="font-semibold text-blue-600 hover:text-blue-700 tabular-nums text-[11px] truncate">
+          <p className="font-semibold text-[#171717] hover:text-[#171717]/70 tabular-nums text-[11px] truncate">
             {loan.loanNumber ?? loan.id.slice(0, 8).toUpperCase()}
           </p>
           <div className="mt-0.5">
@@ -114,7 +114,7 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       <td className={tdClass}>
         <Link
           href={`/loans/${loan.id}`}
-          className="block text-slate-500 whitespace-nowrap truncate"
+          className="block text-gray-500 whitespace-nowrap truncate"
         >
           {shortDate(loan.createdAt)}
         </Link>
@@ -123,15 +123,15 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       {/* Borrower — name only, truncated */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="font-medium text-slate-900 truncate">{loan.borrowerName}</p>
+          <p className="font-medium text-gray-900 truncate">{loan.borrowerName}</p>
         </Link>
       </td>
 
       {/* Property — address line 1, city/st zip stacked */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <p className="text-slate-700 truncate">{loan.propertyAddress}</p>
-          <p className="text-[10px] text-slate-400 truncate">
+          <p className="text-gray-700 truncate">{loan.propertyAddress}</p>
+          <p className="text-[10px] text-gray-400 truncate">
             {loan.propertyCity}, {loan.propertyState} {loan.propertyZip}
           </p>
         </Link>
@@ -161,7 +161,7 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       {/* Amount — right-aligned */}
       <td className={cn(tdClass, 'text-right')}>
         <Link href={`/loans/${loan.id}`} className="block">
-          <span className="font-semibold text-slate-900 tabular-nums">
+          <span className="font-semibold text-gray-900 tabular-nums">
             {formatCurrency(loan.loanAmount)}
           </span>
         </Link>
@@ -170,9 +170,9 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       {/* LTV / optional CLTV */}
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block tabular-nums truncate">
-          <span className="text-slate-700">{loan.ltv.toFixed(1)}%</span>
+          <span className="text-gray-700">{loan.ltv.toFixed(1)}%</span>
           {loan.cltv !== undefined && loan.cltv > 0 && (
-            <span className="text-slate-400">/{loan.cltv.toFixed(1)}%</span>
+            <span className="text-gray-400">/{loan.cltv.toFixed(1)}%</span>
           )}
         </Link>
       </td>
@@ -181,19 +181,19 @@ function LoanRow({ loan, isEven }: { loan: Loan; isEven: boolean }) {
       <td className={tdClass}>
         <Link href={`/loans/${loan.id}`} className="block">
           {loan.rate ? (
-            <span className="font-medium text-slate-800 tabular-nums">
+            <span className="font-medium text-gray-800 tabular-nums">
               {loan.rate.toFixed(3)}%
             </span>
           ) : (
-            <span className="text-slate-300">—</span>
+            <span className="text-gray-300">—</span>
           )}
         </Link>
       </td>
 
       {/* Loan Officer */}
       <td className={tdClass}>
-        <Link href={`/loans/${loan.id}`} className="block truncate text-slate-600">
-          {loan.loanOfficer ?? <span className="text-slate-300">—</span>}
+        <Link href={`/loans/${loan.id}`} className="block truncate text-gray-600">
+          {loan.loanOfficer ?? <span className="text-gray-300">—</span>}
         </Link>
       </td>
     </tr>

@@ -19,7 +19,7 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div className={cn('flex flex-col gap-1', className)}>
-      <label className="text-xs font-medium text-slate-700 flex items-center gap-0.5">
+      <label className="text-xs font-medium text-gray-700 flex items-center gap-0.5">
         {label}
         {required && (
           <span className="text-red-500 ml-0.5" aria-hidden="true">
@@ -31,7 +31,7 @@ export function FormField({
       {children}
 
       {hint && !error && (
-        <p className="text-[11px] text-slate-400 leading-tight">{hint}</p>
+        <p className="text-[11px] text-gray-400 leading-tight">{hint}</p>
       )}
 
       {error && (

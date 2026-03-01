@@ -64,12 +64,12 @@ const SUPPORT_CARDS: SupportCard[] = [
 
 export default function SupportPage() {
   return (
-    <div className="flex flex-col h-full overflow-y-auto bg-slate-50">
+    <div className="flex flex-col h-full overflow-y-auto bg-gray-50">
       <div className="p-5 space-y-5">
         {/* Page header */}
         <div>
-          <h1 className="text-lg font-bold text-slate-900">Support</h1>
-          <p className="text-xs text-slate-500 mt-0.5">How can we help you today?</p>
+          <h1 className="text-lg font-bold text-gray-900">Support</h1>
+          <p className="text-xs text-gray-500 mt-0.5">How can we help you today?</p>
         </div>
 
         {/* Cards grid */}
@@ -79,22 +79,22 @@ export default function SupportPage() {
             return (
               <button
                 key={card.title}
-                className="bg-white rounded-xl border border-slate-200 p-5 text-left hover:shadow-md hover:border-slate-300 transition-all group cursor-pointer"
+                className="bg-white rounded-xl border border-gray-200 p-5 text-left hover:border-gray-300 transition-colors group cursor-pointer"
               >
                 {/* Icon */}
                 <div
-                  className={`w-11 h-11 ${card.bgColor} rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform`}
+                  className="w-11 h-11 bg-gray-100 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform"
                 >
-                  <Icon size={22} className={card.color} />
+                  <Icon size={22} className="text-gray-500" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm font-semibold text-slate-900 group-hover:text-blue-700 transition-colors">
+                <h3 className="text-sm font-semibold text-gray-900 group-hover:text-gray-900 transition-colors">
                   {card.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   {card.description}
                 </p>
               </button>
@@ -103,11 +103,11 @@ export default function SupportPage() {
         </div>
 
         {/* Footer note */}
-        <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
-          <Headphones size={16} className="text-blue-600 mt-0.5 shrink-0" />
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-start gap-3">
+          <Headphones size={16} className="text-gray-500 mt-0.5 shrink-0" />
           <div>
-            <p className="text-xs font-semibold text-blue-900">Live Support Hours</p>
-            <p className="text-xs text-blue-700 mt-0.5">
+            <p className="text-xs font-semibold text-gray-900">Live Support Hours</p>
+            <p className="text-xs text-gray-600 mt-0.5">
               Monday through Friday, 12:00 PM to 5:00 PM Eastern Time.
               Outside of business hours, please submit a ticket or browse the Knowledge Base.
             </p>

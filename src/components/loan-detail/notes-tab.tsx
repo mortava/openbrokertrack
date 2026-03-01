@@ -51,20 +51,20 @@ export function NotesTab({ loanId, notes, onRefetch }: NotesTabProps) {
       {/* Add Note area */}
       <form
         onSubmit={handleSubmit}
-        className="mb-5 bg-white border border-slate-200 rounded-xl overflow-hidden"
+        className="mb-5 bg-white border border-gray-200 rounded-xl overflow-hidden"
       >
         <textarea
           placeholder="Add a note..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={3}
-          className="w-full px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 resize-none focus:outline-none border-b border-slate-100"
+          className="w-full px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 resize-none focus:outline-none border-b border-gray-100"
         />
-        <div className="flex items-center justify-end px-3 py-2 bg-slate-50">
+        <div className="flex items-center justify-end px-3 py-2 bg-gray-50">
           <button
             type="submit"
             disabled={submitting || !content.trim()}
-            className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60 flex items-center gap-1.5"
+            className="px-3 py-1.5 text-xs font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-60 flex items-center gap-1.5"
           >
             {submitting && (
               <span className="w-3 h-3 border border-white/40 border-t-white rounded-full animate-spin" />
@@ -76,10 +76,10 @@ export function NotesTab({ loanId, notes, onRefetch }: NotesTabProps) {
 
       {/* Empty state */}
       {notes.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-slate-200 rounded-xl">
-          <MessageSquare size={28} className="text-slate-200 mb-2" />
-          <p className="text-sm font-medium text-slate-500">No notes yet</p>
-          <p className="text-xs text-slate-400 mt-0.5">
+        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-gray-200 rounded-xl">
+          <MessageSquare size={28} className="text-gray-200 mb-2" />
+          <p className="text-sm font-medium text-gray-500">No notes yet</p>
+          <p className="text-xs text-gray-400 mt-0.5">
             Notes will appear here once added.
           </p>
         </div>
@@ -119,15 +119,15 @@ function NoteCard({
     <div
       className={cn(
         'group bg-white border rounded-xl px-4 py-3 transition-colors',
-        note.pinned ? 'border-blue-200 bg-blue-50/30' : 'border-slate-200'
+        note.pinned ? 'border-[#171717]/20 bg-gray-50/30' : 'border-gray-200'
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-700">{note.author}</span>
+          <span className="text-xs font-semibold text-gray-700">{note.author}</span>
           {note.pinned && (
-            <span className="text-[10px] font-medium text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-medium text-gray-900 bg-gray-100 px-1.5 py-0.5 rounded-full">
               Pinned
             </span>
           )}
@@ -136,7 +136,7 @@ function NoteCard({
           <button
             onClick={onTogglePin}
             disabled={toggling}
-            className="p-1 text-slate-400 hover:text-blue-500 transition-colors rounded disabled:opacity-50"
+            className="p-1 text-gray-400 hover:text-[#171717] transition-colors rounded disabled:opacity-50"
             title={note.pinned ? 'Unpin' : 'Pin'}
           >
             {note.pinned ? <PinOff size={12} /> : <Pin size={12} />}
@@ -144,11 +144,11 @@ function NoteCard({
           <button
             onClick={onDelete}
             disabled={deleting}
-            className="p-1 text-slate-400 hover:text-red-500 transition-colors rounded disabled:opacity-50"
+            className="p-1 text-gray-400 hover:text-red-500 transition-colors rounded disabled:opacity-50"
             title="Delete note"
           >
             {deleting ? (
-              <span className="w-3 h-3 border border-slate-300 border-t-red-400 rounded-full animate-spin block" />
+              <span className="w-3 h-3 border border-gray-300 border-t-red-400 rounded-full animate-spin block" />
             ) : (
               <Trash2 size={12} />
             )}
@@ -157,10 +157,10 @@ function NoteCard({
       </div>
 
       {/* Content */}
-      <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{note.content}</p>
+      <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{note.content}</p>
 
       {/* Timestamp */}
-      <p className="text-[10px] text-slate-400 mt-2">{formatDate(note.createdAt)}</p>
+      <p className="text-[10px] text-gray-400 mt-2">{formatDate(note.createdAt)}</p>
     </div>
   );
 }

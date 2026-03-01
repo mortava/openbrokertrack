@@ -33,22 +33,22 @@ function SectionCard({
   saving,
 }: SectionCardProps) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5">
+    <div className="bg-white border border-gray-200 rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">{title}</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider">{title}</h3>
         {editMode ? (
           <div className="flex items-center gap-1.5">
             <button
               onClick={onCancel}
               disabled={saving}
-              className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-slate-600 border border-slate-200 rounded-md hover:bg-slate-50 disabled:opacity-50"
+              className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50"
             >
               <X size={11} /> Cancel
             </button>
             <button
               onClick={onSave}
               disabled={saving}
-              className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60"
+              className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-60"
             >
               {saving ? (
                 <span className="w-2.5 h-2.5 border border-white/40 border-t-white rounded-full animate-spin" />
@@ -61,7 +61,7 @@ function SectionCard({
         ) : (
           <button
             onClick={onEdit}
-            className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-blue-600 transition-colors"
+            className="flex items-center gap-1 text-[11px] text-gray-400 hover:text-[#171717] transition-colors"
           >
             <Edit2 size={11} />
             Edit
@@ -88,14 +88,14 @@ function Field({
 }) {
   return (
     <div>
-      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-0.5">
+      <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-0.5">
         {label}
       </p>
       {editMode && editElement ? (
         editElement
       ) : (
-        <p className="text-xs font-medium text-slate-800 truncate" title={value}>
-          {value || <span className="text-slate-300">—</span>}
+        <p className="text-xs font-medium text-gray-800 truncate" title={value}>
+          {value || <span className="text-gray-300">—</span>}
         </p>
       )}
     </div>
@@ -103,10 +103,10 @@ function Field({
 }
 
 const inputClass =
-  'w-full px-2 py-1 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white';
+  'w-full px-2 py-1 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white';
 
 const selectClass =
-  'w-full px-2 py-1 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white';
+  'w-full px-2 py-1 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white';
 
 // ─── Main component ───────────────────────────────────────────────────────────
 

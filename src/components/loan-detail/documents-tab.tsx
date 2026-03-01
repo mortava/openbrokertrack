@@ -43,7 +43,7 @@ const statusVariant: Record<
 };
 
 const inputClass =
-  'w-full px-2.5 py-1.5 text-xs border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 bg-white placeholder:text-slate-400';
+  'w-full px-2.5 py-1.5 text-xs border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30 bg-white placeholder:text-gray-400';
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -74,7 +74,7 @@ function getFileType(url: string): 'pdf' | 'image' | 'other' {
 
 /** Get file icon based on extension */
 function getFileIcon(url?: string) {
-  if (!url) return <FileText size={15} className="text-slate-500" />;
+  if (!url) return <FileText size={15} className="text-gray-500" />;
   const type = getFileType(url);
   if (type === 'pdf') return <FileText size={15} className="text-red-500" />;
   if (type === 'image') return <ImageIcon size={15} className="text-blue-500" />;
@@ -187,13 +187,13 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs font-semibold text-slate-700">
+        <h3 className="text-xs font-semibold text-gray-700">
           Documents
-          <span className="ml-1.5 text-slate-400 font-normal">({documents.length})</span>
+          <span className="ml-1.5 text-gray-400 font-normal">({documents.length})</span>
         </h3>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 transition-colors"
+          className="flex items-center gap-1 text-[11px] font-medium text-[#171717] hover:text-[#171717]/70 transition-colors"
         >
           <Upload size={12} />
           Upload Document
@@ -204,16 +204,16 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
       {showForm && (
         <form
           onSubmit={handleUpload}
-          className="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-2"
+          className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg space-y-2"
         >
           <div
             className={cn(
               'relative border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer',
               dragOver
-                ? 'border-blue-400 bg-blue-50'
+                ? 'border-[#171717]/40 bg-gray-50'
                 : selectedFile
                   ? 'border-green-300 bg-green-50'
-                  : 'border-slate-300 bg-white hover:border-slate-400',
+                  : 'border-gray-300 bg-white hover:border-gray-400',
             )}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
@@ -246,11 +246,11 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
               </div>
             ) : (
               <div>
-                <Upload size={20} className="mx-auto text-slate-400 mb-1" />
-                <p className="text-xs text-slate-500">
-                  Drag & drop a file here, or <span className="text-blue-600 font-medium">browse</span>
+                <Upload size={20} className="mx-auto text-gray-400 mb-1" />
+                <p className="text-xs text-gray-500">
+                  Drag & drop a file here, or <span className="text-[#171717] font-medium">browse</span>
                 </p>
-                <p className="text-[10px] text-slate-400 mt-0.5">
+                <p className="text-[10px] text-gray-400 mt-0.5">
                   PDF, Images, Word, Excel &middot; Max 10 MB
                 </p>
               </div>
@@ -284,14 +284,14 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
             <button
               type="button"
               onClick={resetForm}
-              className="px-3 py-1 text-[11px] text-slate-600 border border-slate-200 rounded-md hover:bg-white"
+              className="px-3 py-1 text-[11px] text-gray-600 border border-gray-200 rounded-md hover:bg-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || !docName.trim() || !selectedFile}
-              className="px-3 py-1 text-[11px] font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-60"
+              className="px-3 py-1 text-[11px] font-medium text-white bg-[#171717] rounded-md hover:bg-[#171717]/90 disabled:opacity-60"
             >
               {submitting ? 'Uploading...' : 'Upload Document'}
             </button>
@@ -306,10 +306,10 @@ export function DocumentsTab({ loanId, documents, onRefetch }: DocumentsTabProps
 
       {/* Empty state */}
       {documents.length === 0 && !showForm && (
-        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-slate-200 rounded-xl">
-          <Folder size={28} className="text-slate-200 mb-2" />
-          <p className="text-sm font-medium text-slate-500">No documents yet</p>
-          <p className="text-xs text-slate-400 mt-0.5">
+        <div className="flex flex-col items-center justify-center py-12 text-center bg-white border border-gray-200 rounded-xl">
+          <Folder size={28} className="text-gray-200 mb-2" />
+          <p className="text-sm font-medium text-gray-500">No documents yet</p>
+          <p className="text-xs text-gray-400 mt-0.5">
             Upload documents to track the loan file.
           </p>
         </div>
@@ -343,12 +343,12 @@ function DocumentPreview({ doc, onClose }: { doc: LoanDocument; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         {/* Preview header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50 shrink-0">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
             {getFileIcon(url)}
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-slate-800 truncate">{doc.name}</p>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-sm font-semibold text-gray-800 truncate">{doc.name}</p>
+              <p className="text-[10px] text-gray-400">
                 {doc.uploadedBy} &middot; {formatDate(doc.createdAt)}
                 {doc.fileSize ? ` \u00B7 ${formatFileSize(doc.fileSize)}` : ''}
               </p>
@@ -361,14 +361,14 @@ function DocumentPreview({ doc, onClose }: { doc: LoanDocument; onClose: () => v
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 p-1.5 rounded-lg hover:bg-slate-200 text-slate-500 hover:text-blue-600 transition-colors"
+              className="ml-2 p-1.5 rounded-lg hover:bg-gray-200 text-gray-500 hover:text-[#171717] transition-colors"
               title="Open in new tab"
             >
               <Download size={14} />
             </a>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-slate-200 text-slate-500 hover:text-slate-800 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-gray-200 text-gray-500 hover:text-gray-800 transition-colors"
             >
               <X size={14} />
             </button>
@@ -376,7 +376,7 @@ function DocumentPreview({ doc, onClose }: { doc: LoanDocument; onClose: () => v
         </div>
 
         {/* Preview body */}
-        <div className="flex-1 overflow-hidden bg-slate-100">
+        <div className="flex-1 overflow-hidden bg-gray-100">
           {type === 'pdf' && (
             <iframe
               src={`${url}#toolbar=1&navpanes=0`}
@@ -396,13 +396,13 @@ function DocumentPreview({ doc, onClose }: { doc: LoanDocument; onClose: () => v
           )}
           {type === 'other' && (
             <div className="flex flex-col items-center justify-center h-full gap-3">
-              <FileSpreadsheet size={40} className="text-slate-300" />
-              <p className="text-sm text-slate-500">Preview not available for this file type</p>
+              <FileSpreadsheet size={40} className="text-gray-300" />
+              <p className="text-sm text-gray-500">Preview not available for this file type</p>
               <a
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-[#171717] rounded-lg hover:bg-[#171717]/90 transition-colors"
               >
                 <Download size={13} />
                 Download to View
@@ -436,8 +436,8 @@ function DocumentRow({
   const canPreview = doc.fileUrl && getFileType(doc.fileUrl) !== 'other';
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors group">
-      <div className="shrink-0 w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+    <div className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg hover:border-gray-300 transition-colors group">
+      <div className="shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
         {getFileIcon(doc.fileUrl)}
       </div>
 
@@ -445,14 +445,14 @@ function DocumentRow({
         {doc.fileUrl ? (
           <button
             onClick={onPreview}
-            className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline truncate block text-left"
+            className="text-xs font-medium text-[#171717] hover:text-[#171717]/70 hover:underline truncate block text-left"
           >
             {doc.name}
           </button>
         ) : (
-          <p className="text-xs font-medium text-slate-800 truncate">{doc.name}</p>
+          <p className="text-xs font-medium text-gray-800 truncate">{doc.name}</p>
         )}
-        <p className="text-[10px] text-slate-400 mt-0.5">
+        <p className="text-[10px] text-gray-400 mt-0.5">
           {doc.uploadedBy} &middot; {formatDate(doc.createdAt)}
           {doc.fileSize ? ` \u00B7 ${formatFileSize(doc.fileSize)}` : ''}
         </p>
@@ -470,7 +470,7 @@ function DocumentRow({
         {canPreview && (
           <button
             onClick={onPreview}
-            className="p-1 rounded hover:bg-blue-50 text-slate-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"
+            className="p-1 rounded hover:bg-gray-50 text-gray-400 hover:text-[#171717] opacity-0 group-hover:opacity-100 transition-all"
             title="Preview"
           >
             <Eye size={13} />
@@ -483,7 +483,7 @@ function DocumentRow({
             href={doc.fileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"
+            className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-[#171717] opacity-0 group-hover:opacity-100 transition-all"
             title="Download"
           >
             <Download size={13} />
@@ -494,7 +494,7 @@ function DocumentRow({
         <button
           onClick={confirmDelete}
           disabled={deleting}
-          className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
+          className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50"
           title="Delete document"
         >
           <Trash2 size={13} />

@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = 'OpenBrokerTrack <notifications@defylocks.qualr.com>';
+const FROM_EMAIL = 'OpenBroker LOS <notifications@defylocks.qualr.com>';
 const DEFAULT_TO = ['defylocks@qualr.com'];
 
 export async function POST(req: NextRequest) {

@@ -63,32 +63,32 @@ export default function LoansTable({ loans }: LoansTableProps) {
   const SortHeader = ({ field, children }: { field: typeof sortField; children: React.ReactNode }) => (
     <button
       onClick={() => toggleSort(field)}
-      className="flex items-center gap-1 text-xs font-semibold text-slate-500 uppercase tracking-wider hover:text-slate-700"
+      className="flex items-center gap-1 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700"
     >
       {children}
-      <ArrowUpDown size={12} className={sortField === field ? 'text-blue-500' : 'text-slate-300'} />
+      <ArrowUpDown size={12} className={sortField === field ? 'text-[#171717]' : 'text-gray-300'} />
     </button>
   );
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200">
+    <div className="bg-white rounded-xl border border-gray-200">
       {/* Toolbar */}
-      <div className="flex items-center gap-3 p-4 border-b border-slate-200">
+      <div className="flex items-center gap-3 p-4 border-b border-gray-200">
         <div className="relative flex-1 max-w-sm">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Search by name, ID, city, email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400"
+            className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#171717]/10 focus:border-[#171717]/30"
           />
         </div>
         <div className="relative">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none pl-3 pr-8 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+            className="appearance-none pl-3 pr-8 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#171717]/10 cursor-pointer"
           >
             <option value="all">All Stages</option>
             <option value="lead">Lead</option>
@@ -100,9 +100,9 @@ export default function LoansTable({ loans }: LoansTableProps) {
             <option value="funded">Funded</option>
             <option value="dead">Dead</option>
           </select>
-          <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+          <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
         </div>
-        <span className="text-xs text-slate-400 ml-auto">
+        <span className="text-xs text-gray-400 ml-auto">
           {filtered.length} loan{filtered.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -111,24 +111,24 @@ export default function LoansTable({ loans }: LoansTableProps) {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-slate-100">
+            <tr className="border-b border-gray-100">
               <th className="text-left px-4 py-3">
                 <SortHeader field="borrowerName">Borrower</SortHeader>
               </th>
               <th className="text-left px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Property</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Property</span>
               </th>
               <th className="text-left px-4 py-3">
                 <SortHeader field="loanAmount">Amount</SortHeader>
               </th>
               <th className="text-left px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</span>
               </th>
               <th className="text-left px-4 py-3">
                 <SortHeader field="creditScore">FICO</SortHeader>
               </th>
               <th className="text-left px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Stage</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Stage</span>
               </th>
               <th className="text-left px-4 py-3">
                 <SortHeader field="updatedAt">Updated</SortHeader>
@@ -139,24 +139,24 @@ export default function LoansTable({ loans }: LoansTableProps) {
             {filtered.map((loan) => (
               <tr
                 key={loan.id}
-                className="border-b border-slate-50 hover:bg-slate-50/50 cursor-pointer transition-colors"
+                className="border-b border-gray-50 hover:bg-gray-50/50 cursor-pointer transition-colors"
               >
                 <td className="px-4 py-3">
                   <div>
-                    <p className="text-sm font-medium text-slate-900">{loan.borrowerName}</p>
-                    <p className="text-xs text-slate-400">{loan.id} &middot; {formatPhone(loan.phone)}</p>
+                    <p className="text-sm font-medium text-gray-900">{loan.borrowerName}</p>
+                    <p className="text-xs text-gray-400">{loan.id} &middot; {formatPhone(loan.phone)}</p>
                   </div>
                 </td>
                 <td className="px-4 py-3">
                   <div>
-                    <p className="text-sm text-slate-700 truncate max-w-[200px]">{loan.propertyAddress}</p>
-                    <p className="text-xs text-slate-400">{loan.propertyCity}, {loan.propertyState} {loan.propertyZip}</p>
+                    <p className="text-sm text-gray-700 truncate max-w-[200px]">{loan.propertyAddress}</p>
+                    <p className="text-xs text-gray-400">{loan.propertyCity}, {loan.propertyState} {loan.propertyZip}</p>
                   </div>
                 </td>
                 <td className="px-4 py-3">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{formatCurrency(loan.loanAmount)}</p>
-                    <p className="text-xs text-slate-400">LTV {loan.ltv}%{loan.rate ? ` · ${loan.rate}%` : ''}</p>
+                    <p className="text-sm font-semibold text-gray-900">{formatCurrency(loan.loanAmount)}</p>
+                    <p className="text-xs text-gray-400">LTV {loan.ltv}%{loan.rate ? ` · ${loan.rate}%` : ''}</p>
                   </div>
                 </td>
                 <td className="px-4 py-3">
@@ -164,7 +164,7 @@ export default function LoansTable({ loans }: LoansTableProps) {
                     <TypeBadge variant={loan.loanType === 'nonqm' ? 'amber' : loan.loanType === 'jumbo' ? 'purple' : 'blue'}>
                       {loan.loanType.toUpperCase()}
                     </TypeBadge>
-                    <span className="text-[10px] text-slate-400 capitalize">{loan.loanPurpose}</span>
+                    <span className="text-[10px] text-gray-400 capitalize">{loan.loanPurpose}</span>
                   </div>
                 </td>
                 <td className="px-4 py-3">
@@ -176,13 +176,13 @@ export default function LoansTable({ loans }: LoansTableProps) {
                   <StageBadge stage={loan.status} />
                 </td>
                 <td className="px-4 py-3">
-                  <span className="text-xs text-slate-500">{formatDate(loan.updatedAt)}</span>
+                  <span className="text-xs text-gray-500">{formatDate(loan.updatedAt)}</span>
                 </td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-sm text-slate-400">
+                <td colSpan={7} className="px-4 py-12 text-center text-sm text-gray-400">
                   No loans found matching your criteria.
                 </td>
               </tr>
